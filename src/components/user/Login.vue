@@ -10,13 +10,13 @@
         </el-form-item>
 
         <el-form-item label="password">
-          <el-input type="password" v-model="form.password" autocomplete="off"></el-input>
+          <el-input type="password" :model="form.password" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item>
           <el-button type="text">Forget PassWord</el-button>
           <el-button type="text" @click="handleLogin()">Login</el-button>
-<!--          <el-button type="text" @click="handleTest()">test</el-button>-->
+          <el-button type="text" @click="handleTest()">test</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -57,13 +57,7 @@ export default {
       })
     },
     handleTest: function () {
-      console.log("ttt");
-      axios.get("http://localhost:8201/auth/test/show")
-          .then(function(response){
-            console.log(response);
-          },function(err){
-            console.log(err);
-          })
+      api.test();
     }
   }
 }

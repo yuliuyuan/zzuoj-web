@@ -65,6 +65,8 @@ function get(url, params) {
 }
 
 const getContestId = () => store.state.contest.contest.contestId;
+const auth_url = "zzuoj-auth";
+const user_url = "zzuoj-user";
 
 export default {
     // 配置相关

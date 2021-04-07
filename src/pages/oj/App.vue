@@ -11,7 +11,7 @@
 
 <script>
 
-import NavMenu from "./views/NavMenu.vue";
+import NavMenu from "@oj/views/NavMenu.vue";
 export default {
   name: 'OjApp',
   components: {

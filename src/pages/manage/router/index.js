@@ -6,14 +6,15 @@ import NotFound from '@manage/views/404.vue'
 // @/router下的文件和view目录是一一对应的
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  base: 'admin',
+  base: '/manage/',
   routes: [...homeRoutes,
       //404路由一定要放到最后
-    {
-      path: '*',
-      name: '404',
-      component: NotFound
-    }],
+    // {
+    //   path: '*',
+    //   name: '404',
+    //   component: NotFound
+    // }
+    ],
 })
 
 export default router

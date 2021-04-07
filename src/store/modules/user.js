@@ -9,7 +9,7 @@
  */
 
 
-import {USER_ROLE} from "../../util/constants";
+import {USER_ROLE} from "../../pages/oj/util/constants";
 
 const state = {
   profile: {}

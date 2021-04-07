@@ -1,14 +1,14 @@
-import HomeView from "@manage/views/home/HomeView.vue";
+import HomeView from "@oj/views/home/HomeView.vue";
 
 export default [
     {
         path: '/',
-        name: 'admin',
+        name: 'home',
         component: HomeView
     },
     {
         path: '/home',
-        name: 'admin',
+        name: 'home',
         component: HomeView
     },
 ]

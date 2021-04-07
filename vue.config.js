@@ -5,6 +5,36 @@ const resolve = dir => require('path').join(__dirname, dir);
 // const managePages = "pages/manage"
 
 module.exports = {
+    // pages: {
+    //     index: {
+    //         // index: 'index.html',// 默认启动oj 打开index页面
+    //         // page 的入口
+    //         entry: 'src/main.js',
+    //         // 模板来源
+    //         template: 'public/index.html',
+    //         // 在 dist/index.html 的输出
+    //         filename: 'oj.html',
+    //         // 当使用 title 选项时，
+    //         // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
+    //         title: 'zzuoj',
+    //         // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
+    //         chunks: ['chunk-vendors', 'chunk-common', 'index']
+    //     },
+    //     // manage: {
+    //     //     // page 的入口
+    //     //     entry: 'src/manage.js',
+    //     //     // 模板来源
+    //     //     template: 'public/manage.html',
+    //     //     // 在 dist/index.html 的输出
+    //     //     filename: 'manage.html',
+    //     //     // 当使用 title 选项时，
+    //     //     // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
+    //     //     title: 'manage',
+    //     //     // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
+    //     //     chunks: ['chunk-vendors', 'chunk-common']
+    //     // }
+    // },
+
     //webpack配置
     chainWebpack: config => {
         config.resolve.alias
@@ -12,35 +42,7 @@ module.exports = {
             .set('@oj', resolve('src/pages/oj'))
             .set('@manage', resolve('src/pages/manage'))
     },
-    pages: {
-        index: {
-            index: 'index.html',// 默认启动oj 打开index页面
-            // page 的入口
-            entry: `src/pages/oj/main.js`,
-            // 模板来源
-            template: `public/index.html`,
-            // 在 dist/index.html 的输出
-            filename: 'oj.html',
-            // 当使用 title 选项时，
-            // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
-            title: 'zzuoj',
-            // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
-            // chunks: ['chunk-vendors', 'chunk-common'],
-        },
-        manage: {
-            // page 的入口
-            entry: `src/pages/manage/main.js`,
-            // 模板来源
-            template: `public/manage.html`,
-            // 在 dist/index.html 的输出
-            filename: 'manage.html',
-            // 当使用 title 选项时，
-            // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
-            title: 'manage',
-            // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
-            // chunks: ['chunk-vendors', 'chunk-common'],
-        },
-    }
+
     // configureWebpack: {
     //     module: {
     //         rules: [

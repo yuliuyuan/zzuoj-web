@@ -1,5 +1,5 @@
 <template>
-  <div class="OjApp">
+  <div class="app">
     <el-container>
       <el-header><navmenu></navmenu></el-header>
       <el-main class="appMain">
@@ -13,7 +13,7 @@
 
 import NavMenu from "@oj/views/NavMenu.vue";
 export default {
-  name: 'OjApp',
+  name: 'app',
   components: {
     'navmenu': NavMenu
   }
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style>
-.OjApp {
+.app {
   /*background-color: aliceblue;*/
 
   font-family: Avenir, Helvetica, Arial, sans-serif;

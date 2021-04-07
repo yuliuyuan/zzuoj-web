@@ -1,7 +1,12 @@
 <template>
-  <p>hello admin!</p>
+  <p>manage index</p>
+
 </template>
 
 <script>
+
+export default {
+
+}
 
 </script>

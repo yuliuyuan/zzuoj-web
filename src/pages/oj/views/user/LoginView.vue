@@ -23,7 +23,7 @@
 
 
 <script>
-import api from '@oj/util/api';
+import api from '@/util/api';
 
 export default {
   name: 'LoginView',

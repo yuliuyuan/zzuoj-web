@@ -3,29 +3,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import userRoutes from '@oj/router/user.js'
 import homeRoutes from '@oj/router/home.js'
 import aboutRoutes from '@oj/router/about.js'
-import NotFound from '@oj/views/404.vue'
-// import HomeView from "@oj/views/home/HomeView.vue"
-
-// @/router下的文件和view目录是一一对应的
+import problemRoutes from '@oj/router/problem.js'
 
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  // base: '/user/',
-  routes: [
-      ...userRoutes, ...homeRoutes, ...aboutRoutes,
-      // {
-      //     path: '/',
-      //     name: 'home',
-      //     component: HomeView
-      // },
-      //404路由一定要放到最后
-      {
-        path: "/*",
-        name: '404',
-        component: NotFound,
-      },
-    ],
-})
+export default [
+    ...userRoutes, ...homeRoutes, ...aboutRoutes,... problemRoutes,
 
-export default router
+]

@@ -22,7 +22,6 @@ function post(url, data){
         axios.post(url,data)
             .then(response => {
                 //服务端common包里定义所有正确的response.data.code都是200
-                console.log(response);
                 if(response.data.code === 200) {
                     resolve(response.data);
                 } else {

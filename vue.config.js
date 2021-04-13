@@ -3,6 +3,7 @@
 const resolve = dir => require('path').join(__dirname, dir);
 // const ojPages = "pages/oj"
 // const managePages = "pages/manage"
+const base_admin_url_prefix = "/admin";
 
 module.exports = {
     // pages: {
@@ -34,6 +35,8 @@ module.exports = {
     //     //     chunks: ['chunk-vendors', 'chunk-common']
     //     // }
     // },
+
+
 
     //webpack配置
     chainWebpack: config => {

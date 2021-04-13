@@ -13,6 +13,7 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
@@ -29,7 +30,6 @@ export default {
       //setter
       set:function(newValue){
         // 这里由于该计算属性被赋值，将被调用
-        console.log(newValue)
         this.didi = 123
         this.family = 456
       }

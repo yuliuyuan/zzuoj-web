@@ -1,14 +1,19 @@
-import HomeView from "@oj/views/home/HomeView.vue";
+import HomeView from '@manage/views/home/HomeView.vue'
+import Global from '@/Global.vue'
 
 export default [
     {
-        path: '/',
-        name: 'home',
-        component: HomeView
+        path: Global.admin_base_url_prefix,
+        name: 'admin-',
+        component:{
+            manage: HomeView
+        }
     },
     {
-        path: '/home',
-        name: 'home',
-        component: HomeView
+        path: Global.admin_base_url_prefix+'/home',
+        name: 'admin-home',
+        component: {
+            manage: HomeView
+        }
     },
 ]

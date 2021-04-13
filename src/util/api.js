@@ -25,7 +25,6 @@ function post(url, data){
                 if(response.data.code === 200) {
                     resolve(response.data);
                 } else {
-                    //不是很懂这个操作是干了啥
                     reject(response.data);
                 }
                 //todo：需要更新一些Session时间

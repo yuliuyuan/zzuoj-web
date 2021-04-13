@@ -103,25 +103,17 @@ function get(url, params) {
 //     })
 // }
 
-const getContestId = () => store.state.contest.contest.contestId;
-const auth_url = "zzuoj-auth";
+
+// 所有的链接下面都要加上下面的url前缀，对应后端几个微服务： https://j538mnfb9c.feishu.cn/docs/doccnMyT9uQgDd12haw3p5QzuYc
 const user_url = "zzuoj-user";
+const problem_url = "zzuoj-problem";
+const experiment_url = "zzuoj-experiment";
+const contest_url = "zzuoj-contest";
 const file_url = "zzuoj-file";
 
-export default {
-    //home界面
-    getNews: function () {
-        return get(file_url+'/news/show');
-    },
 
-    // 配置相关
-    getCopyright: function() {
-        return get('/site/getCopyright');
-    },
-    // 用户相关
-    test: function (){
-        return get(auth_url + '/auth/test/show');
-    },
+export default {
+    //user相关
     login: function(data) {
         return post('/user/login', data);
     },
@@ -137,151 +129,18 @@ export default {
     updateProfile: function(data) {
         return post('/user/updateProfile', data);
     },
-    sendVerificationEmail: function(username) {
-        return post('/user/sendVerificationEmail', { username });
-    },
-    resetPassword: function(data) {
-        return post('/user/resetPassword', data);
-    },
-    verifyEmail: function(token) {
-        return get('/user/verifyEmail', { token });
-    },
-    getProfile: function(success, error) {
-        axios.get('/user/getProfile')
-            .then(response => {
-                if (response.data.code === 0) {
-                    store.dispatch('user/setProfile', response.data.data)
-                    if (success) {
-                        success(response.data.data);
-                    }
-                } else {
-                    Vue.prototype.$Message.error(response.data.message);
-                }
-            }, err => {
-                if (err.response.status === 401) {
-                    store.dispatch('user/clearProfile');
-                    if (error) {
-                        error(err.response.data);
-                    }
-                }
-            });
-    },
-    getCaptcha: function() {
-        return get('/user/getCaptcha');
-    },
-    isExist: function(params) {
-        return get('/user/isExist', params);
-    },
-    getParticipatedContests: function() {
-        return get('/user/queryParticipateContest');
-    },
-    // 提交相关
-    getUserACProblems: function() {
-        return get('/submit/queryACProblem');
-    },
-    getSubmissionDetail: function(params) {
-        const contestId = getContestId();
-        if (contestId) {
-            return this.getContestSubmissionDetail({ ...params, contestId });
-        }
-        return get('/submit/query', params);
-    },
-    getSubmissionList: function(params) {
-        const contestId = getContestId();
-        if (contestId) {
-            return this.getContestSubmissionList({ ...params, contestId });
-        } else {
-            return get('/submit/list', params);
-        }
-    },
-    submit: function(data) {
-        const contestId = getContestId();
-        if (contestId) {
-            return this.createContestSubmission({ ...data, contestId });
-        } else {
-            return post('/submit/create', data);
-        }
-    },
-    // 题目相关
-    problemQuery: function(params) {
-        const contestId = getContestId();
-        if (contestId) {
-            const index = parseInt(params.problemCode) - 1;
-            return new Promise((resolve, reject) => {
-                if (!store.state.contest.problems[index]._valid) {
-                    this.getContestProblem({
-                        ...params,
-                        contestId
-                    }).then(ret => {
-                        store.commit('contest/setProblemDetail', { problem: ret });
-                        resolve(ret);
-                    }, _ => reject(_));
-                } else {
-                    resolve(store.state.contest.problems[index]);
-                }
-            })
-        } else {
-            return get('/problem/query', params);
-        }
-    },
-    getProblemList: function(params) {
-        return get('/problem/list', params);
-    },
-    // 比赛相关
-    getContestList: function(params) {
-        return get('/contest/list', params);
-    },
-    getContest: function(contestId) {
-        return get('/contest/query', { contestId });
-    },
-    getUpcomingContest: function(params) {
-        return get('/contest/queryUpcomingContest', params);
-    },
-    getContestProblem: function(params) {
-        return get('/contest/queryProblem', params);
-    },
-    participateIn: function(data) {
-        return post('/contest/participate', data);
-    },
-    createContestSubmission: function(data) {
-        return post('/contest/createSubmission', data);
-    },
-    getContestSubmissionList: function(params) {
-        return get('/contest/listSubmission', params);
-    },
-    getContestSubmissionDetail: function(params) {
-        return get('/contest/querySubmission', params);
-    },
-    getContestRank: function(contestId) {
-        return get('/contest/rank', { contestId });
-    },
-    rejudge: function(data) {
-        return post('/submit/rejudge', data);
-    },
-    invalidate: function(params) {
-        if (params.contestId) {
-            return get('/contest/invalidateSubmission', params);
-        } else {
-            return get('/submit/invalidateSubmission', params);
-        }
-    },
-    /* *************** groups ************************* */
-    getGroupDetail: function(params) {
-        return get('/group/query', params);
-    },
-    getGroupList: function(params) {
-        return get('/group/page', params);
-    },
-    joinGroup: function(params) {
-        return get('/group/apply', params);
-    },
-    quitGroup: function(params) {
-        return get('/group/quit', params);
-    },
-    getMyGroupList: function (params) {
-        return get('/group/my', params);
-    }
 
+    //problem 相关
+
+
+    //experiment相关
+
+    //contest相关
+
+    //file相关
+    getNews: function () {
+        return get(file_url+'/news/show');
+    },
 }
 
 

@@ -32,11 +32,11 @@
       </el-menu-item-group>
     </el-submenu>
 
-    <el-submenu index="/admin/contest">
+    <el-submenu index="/admin/experiment">
       <template #title><i class="el-icon-s-grid"></i>实验管理</template>
       <el-menu-item-group>
-        <el-menu-item index="/admin/contest/list">实验列表管理</el-menu-item>
-        <el-menu-item index="/admin/contest/add ">添加实验</el-menu-item>
+        <el-menu-item index="/admin/experiment/list">实验列表管理</el-menu-item>
+        <el-menu-item index="/admin/experiment/add ">添加实验</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
 

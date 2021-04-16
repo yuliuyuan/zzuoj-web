@@ -18,5 +18,10 @@ export default [
         component: ArticleView,
         props: true
     },
+    {
+        path: '/home/list',
+        name: 'homePageList',
+        component: HomeView,
+    }
 
 ]

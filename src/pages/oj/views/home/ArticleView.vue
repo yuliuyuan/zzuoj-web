@@ -11,7 +11,8 @@
 
 
 <script>
-import { mapGetters } from 'vuex'
+import api from '@/util/api.js'
+
 
 export default {
   name: 'ArticleView',
@@ -27,10 +28,18 @@ export default {
   },
 
   methods: {
+    handleGetNewByNewId: function (newId) {
+      var params = {id : newId}
+      api.getNewById(params).then( res => {
+        this.newShow = res;
+      }).catch( err => {
+        console.log("get new by id err:" + err);
+      })
+    }
   },
 
   mounted() {
-    this.newShow = this.$store.getters.getNewById(this.$route.params.id)
+    this.handleGetNewByNewId(this.$route.params.id);
   }
 }
 </script>

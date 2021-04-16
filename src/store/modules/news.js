@@ -2,36 +2,51 @@
 
 const state = {
     newsList: [],
+    pageIndex: -1,
+    newsCnt : -1,
 }
 
 const getters = {
     //在首页展示，不需要内容等等
-    getNewList: (state) => {
+    newsListGetter: (state) => {
         return state.newsList || [];
     },
-    //获取某个特定的用来展示:文章名称、文章内容，时间
-    getNewById: (state) => (id) => {
-        var res = state.newsList.filter( function (v){
-            return v.newsId.toString() == id
-        });
-        return res[0]
-        //todo: 做个兜底
+
+    pageIndexGetter: (state) => {
+      return state.pageIndex;
+    },
+
+    newsCntGetter: (state) => {
+        return state.newsCnt;
     }
 }
 
 const mutations = {
     setNewsList (state, data){
         state.newsList = [...data];
+    },
+    setPageIndex (state, pos){
+        state.pageIndex = pos;
+    },
+    setNewsCnt (state, cnt){
+        state.newsCnt = cnt;
     }
 }
 
 const actions = {
     setNewsList({commit}, data){
-        commit('setNewsList',data)
-        //异步执行
+        commit('setNewsList',data);
+        // 异步执行
         // setTimeout(() => {
         //     commit('setNewsList',data)
         // }, 1000)
+    },
+    setPageIndex({commit}, pos){
+        commit('setPageIndex', pos);
+    },
+
+    setNewsCnt({commit}, cnt){
+        commit('setNewsCnt', cnt);
     }
 }
 

@@ -1,15 +1,11 @@
 <template>
   <div class="home">
-<!--    <div class="showNewsList">{{this.$store.getters.getNewList}}</div>-->
-<!--    <div>&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</div>-->
-<!--    <div class="showNewsList">{{this.tableDataTemp}}</div>-->
-
     <div class="homeTitle" >
       <div class="homeTitleName">
         Announcements
       </div>
       <div class="homeTitleButton">
-        <el-button type="primary" icon="el-icon-refresh" style="right: 0px" @click="handleShowNews()">refresh</el-button>
+        <el-button type="primary" icon="el-icon-refresh" style="right: 0px" @click="handleCurrentChange(this.currentPage)">refresh</el-button>
       </div>
     </div>
     <el-divider></el-divider>
@@ -24,7 +20,7 @@
             width="800"
         >
           <template #default="scope">
-            <el-button  @click="routerTo1(scope.row.newsId)">{{scope.row.title}} </el-button>
+            <el-button  @click="routerToArticle(scope.row.newsId)">{{scope.row.title}} </el-button>
           </template>
         </el-table-column>
 
@@ -45,6 +41,20 @@
     </div>
 
 
+<!--    分页光标、刷新回到第一页解决方法： https://www.jianshu.com/p/0ac112bb19e8-->
+    <div class="block">
+      <el-pagination
+          @current-change="handleCurrentChange(this.currentPage)"
+          v-model:currentPage="currentPage"
+          :page-size="pageSize"
+          layout="prev, pager, next, jumper"
+          :total="newsCnt"
+          v-if="this.newsCnt != 0">
+      </el-pagination>
+
+    </div>
+
+
   </div>
 
 </template>
@@ -56,50 +66,97 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      tableData: []
+      tableData: [],
+      currentPage: 1,
+      newsCnt: 0,
+      pageSize: 3,
     }
   },
 
-  //它用于观察Vue实例上的数据变动。对应一个对象，键是观察表达式，值是对应回调。值也可以是方法名，或者是对象，包含选项。
-  watch: {
+  created() {
+    this.currentPage = this.getContextData("currentArticleListPage")
+  },
+
+  computed: {
+    ...mapGetters(['newsListGetter', 'newByIdGetter', 'pageIndexGetter','newsCntGetter']),
 
   },
 
   //当前页面a a->b->a 跳转页面之后回来还会执行mounted，但是不会执行data中的初始化
   mounted() {
-    if(this.$store.getters.getNewList.length == 0){
-      this.handleShowNews();
-    }
-    this.tableData = this.tableDataTemp
-  },
 
-  //先computed再watch，不执行methods；等触发某一事件后，则是：先methods再watch。
-  //计算属性：HTML DOM加载后马上执行的，如赋值；
-  computed: {
-    tableDataTemp:{
-      get: function (){
-        return this.$store.getters.getNewList
-      },
-      set: function (newData){
-        return this.$store.dispatch('setNewsList',newData)
-      }
+    if( this.newsListGetter.length != 0 && this.pageIndexGetter == this.currentPage && this.newsCntGetter != this.newsCnt ){
+      this.newsCnt = this.newsCntGetter
+      this.tableData = this.newsListGetter
+      this.currentPage = this.pageIndexGetter
+    } else {
+      this.handleNewsCnt();
+      this.handleCurrentChange(this.currentPage);
     }
+    // this.routerToListPage();
   },
 
   //前端是否要存储数据
   methods: {
-    handleShowNews: function(){
-      api.getNews().then(res => {
-        //api.getNews().then是异步的，第一次mounted中的绑定不会生效
-        this.tableData = res
-        this.tableDataTemp = res || [];
-      }).catch(err => {
-        //todo: 做个兜底
+    ...mapActions(['setNewsList','setPageIndex','setNewsCnt']),
+    handleNewsCnt(){
+      api.getNewsCnt().then( res => {
+        this.newsCnt = res;
+        //更新vuex中的值
+        this.setNewsCnt(res);
+      }).catch( err => {
+        console.log("get news cnt error:" + err)
+      })
+    },
+    handleCurrentChange(pos) {
+      var params = {pos: pos, limit: this.pageSize}
+      api.getNewsList(params).then( res => {
+        this.tableData = res;
+        this.currentPage = pos;
+        //更新vuex中的值
+        this.setNewsList(res);
+        this.setPageIndex(pos)
+
+        this.setContextData("currentArticleListPage", this.currentPage)
+        this.routerToListPage();
+      }).catch( err => {
+        console.log("handleCurrentChange error:" + err)
       })
     },
 
-    routerTo1: function (newsId){
+    routerToArticle: function (newsId){
       this.$router.push('/home/article/'+newsId)
+    },
+
+    routerToListPage: function (){
+      this.$router.push({
+        path: '/home/list',
+        query: {
+          pos: this.currentPage,
+          limit: this.pageSize,
+        }
+      })
+    },
+
+    // 在sessionStorage设置值
+    setContextData: function (key, value) {
+      if (typeof value == "string") {
+        localStorage.setItem(key, value);
+      } else {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+    },
+    // 从sessionStorage取值
+    getContextData: function (key) {
+      const str = localStorage.getItem(key);
+      if (typeof str == "string") {
+        try {
+          return JSON.parse(str);
+        } catch (e) {
+          return str;
+        }
+      }
+      return;
     }
   },
 }

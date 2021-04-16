@@ -6,16 +6,18 @@
     <el-divider></el-divider>
     <div class="Content">
       <el-form ref="form" :model="form"  label-width="80px" >
-        <el-form-item label="标题" >
-          <el-input v-model="form.title"></el-input>
+        <el-form-item label="标题">
+          <el-input v-model="form.title" style="width: 300px;"></el-input>
         </el-form-item>
 
         <el-form-item label="时限" >
-          <el-input v-model="form.timeLimit"></el-input>
+          <el-input v-model="form.timeLimit" style="width: 70px;"></el-input>
+          <span style="position:relative; left: 10px">S</span>
         </el-form-item>
 
         <el-form-item label="内存限制" >
-          <el-input v-model="form.memoryLimit"></el-input>
+          <el-input v-model="form.memoryLimit" style="width: 70px;"></el-input>
+          <span style="position:relative; left: 10px">MB</span>
         </el-form-item>
 
         <el-form-item label="描述" >
@@ -51,7 +53,13 @@
         </el-form-item>
 
         <el-form-item label="是否特判" >
-          <el-input v-model="form.isSpecialJudge"></el-input>
+          <el-radio v-model="form.isSpecialJudge" label="1">Yes</el-radio>
+          <el-radio v-model="form.isSpecialJudge" label="0">No</el-radio>
+        </el-form-item>
+
+        <el-form-item label="是否可见" >
+          <el-radio v-model="form.isShow" label="1">Yes</el-radio>
+          <el-radio v-model="form.isShow" label="0">No</el-radio>
         </el-form-item>
 
         <el-form-item label="来源" >
@@ -60,7 +68,7 @@
       </el-form>
       <div >
         <el-button>清空</el-button>
-        <el-button type="primary">提交</el-button>
+        <el-button type="primary" @click="handleAddProblem(this.form)">提交</el-button>
       </div>
     </div>
   </div>
@@ -69,29 +77,43 @@
 
 <script>
 
+import api from "@/util/api.js";
+
 export default {
   name: 'ProblemAdd',
   data() {
     return {
       form: {
-        title: '',
+        title: 'a+b problem',
         timeLimit: 1,
         memoryLimit: 128,
-        description: '',
-        inputDescription: '',
-        outputDescription: '',
-        input: '',
-        output: '',
-        inputAll: '',
-        outputAll: '',
-        hint: '',
+        description: '题目内容',
+        inputDescription: '输入描述',
+        outputDescription: '输出描述',
+        input: '1 2',
+        output: '3',
+        inputAll: '可以在添加问题之后再统一添加测试点',
+        outputAll: '可以在添加问题之后再统一添加测试点',
+        hint: '没啥注意',
         //有关特判
-        isSpecialJudge: false,
-        source: '',
+        isSpecialJudge: '0',
+        isShow: '1',
+        source: 'zzuoj',
       },
 
     }
   },
+
+  methods: {
+    handleAddProblem(data){
+      api.addProblem(data).then( res => {
+        console.log(res);
+      }).catch(err => {
+        console.log("add problem err" + err);
+        //todo: 做个兜底
+      })
+    }
+  }
 }
 </script>
 

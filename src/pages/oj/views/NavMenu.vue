@@ -1,9 +1,9 @@
 <template>
-  <el-menu :default-active="currentMenu" class="el-menu-demo" mode="horizontal"  active-text-color="red" router="true" >
+  <el-menu router :default-active="'/'+this.$route.path.split('/')[1]" class="el-menu-demo" mode="horizontal"  active-text-color="red"  >
     <el-menu-item  class="menu-item">
       <img src="../../../assets/logo.png" height="30" width="30"/>
     </el-menu-item>
-    <el-menu-item index="/" class="menu-item" >Home</el-menu-item>
+    <el-menu-item index="/home" class="menu-item" >Home</el-menu-item>
     <el-menu-item index="/problem" class="menu-item">Problem</el-menu-item>
     <el-menu-item index="3" class="menu-item">Contest</el-menu-item>
     <el-menu-item index="4" class="menu-item">Experiment</el-menu-item>
@@ -19,16 +19,23 @@
 
 <script>
 
+import router from "../../../router";
+
 export default {
   data() {
     return {
-      currentMenu: '/'
     };
   },
 
+  watch:{
+
+  },
+
   mounted() {
-    console.log(this.$route.path)
-    this.currentMenu = this.$route.path.split('/')[0]
+    //启动页面自动跳转到/home
+    // if(this.$route.path.split('/')[1] == ''){
+    //   this.$router.push("/home/")
+    // }
   },
 
   methods: {

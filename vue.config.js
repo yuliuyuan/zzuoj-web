@@ -36,7 +36,9 @@ module.exports = {
     //     // }
     // },
 
-
+    publicPath: process.env.NODE_ENV === 'production'
+        ? '/zzuoj/'
+        : '/',
 
     //webpack配置
     chainWebpack: config => {

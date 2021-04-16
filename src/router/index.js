@@ -19,7 +19,7 @@ const router = createRouter({
       }
     ],
 })
-router.getRoutes().forEach((valueindex)=>{
-    console.log(valueindex)
-})
+// router.getRoutes().forEach((valueindex)=>{
+//     console.log(valueindex)
+// })
 export default router

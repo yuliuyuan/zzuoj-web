@@ -53,15 +53,11 @@ export default {
   },
   watch:{
     $route(to,from){
-      console.log("from"+from.path);
-      console.log("to"+to.path);
-      console.log(this.isBackedManage)
       if(to.path.indexOf("/admin") == 0){
         this.isBackedManage = true;
       } else {
         this.isBackedManage = false;
       }
-      console.log(this.isBackedManage)
     }
   },
 

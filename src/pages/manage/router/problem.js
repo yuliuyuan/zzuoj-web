@@ -1,6 +1,6 @@
 import ProblemList from "@manage/views/problem/ProblemList";
 import ProblemAdd from "@manage/views/problem/ProblemAdd";
-import Global from '@/Global.vue'
+import Global from '@/Global.js'
 
 export default [
     {

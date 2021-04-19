@@ -1,5 +1,5 @@
 import HomeView from '@manage/views/home/HomeView.vue'
-import Global from '@/Global.vue'
+import Global from '@/Global.js'
 
 export default [
     {

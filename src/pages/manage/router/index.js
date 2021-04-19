@@ -3,11 +3,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import homeRoutes from '@manage/router/home.js'
 import problemRoutes from '@manage/router/problem.js'
 import contest from '@manage/router/contest.js'
+import news from '@manage/router/news.js'
 
 // @/router下的文件和view目录是一一对应的
 export default [
     ...homeRoutes,
     ...problemRoutes,
     ...contest,
+    ...news,
 ]
 

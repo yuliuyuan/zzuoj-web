@@ -4,7 +4,7 @@
       <template #title><i class="el-icon-notebook-2"></i>新闻管理</template>
       <el-menu-item-group>
         <el-menu-item index="/admin/news/show">新闻列表管理</el-menu-item>
-        <el-menu-item index="/admin/news/add ">添加新闻</el-menu-item>
+        <el-menu-item index="/admin/news/add">添加新闻</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
 

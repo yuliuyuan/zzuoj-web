@@ -1,5 +1,5 @@
-import HomeView from "@oj/views/home/HomeView.vue";
-import ArticleView from "@oj/views/home/ArticleView";
+import HomeView from "@oj/views/home/Home.vue";
+import ArticleView from "@oj/views/home/News.vue";
 
 export default [
     {

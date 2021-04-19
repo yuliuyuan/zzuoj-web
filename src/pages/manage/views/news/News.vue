@@ -3,6 +3,7 @@
     <div class="articleTitle">
       <h1>{{this.newShow.title}}</h1>
     </div>
+    <el-divider></el-divider>
     <div class="articleContent">
       {{this.newShow.content}}
     </div>
@@ -25,13 +26,17 @@ export default {
 
   //值的绑定
   computed: {
+
   },
 
   methods: {
     handleGetNewByNewId: function (newId) {
+
       var params = {id : newId}
       api.getNewById(params).then( res => {
         this.newShow = res;
+        console.log("------ ")
+        console.log(this.newShow)
       }).catch( err => {
         console.log("get new by id err:" + err);
       })
@@ -39,6 +44,7 @@ export default {
   },
 
   mounted() {
+    console.log("+++++++++++"+this.$route.params.id)
     this.handleGetNewByNewId(this.$route.params.id);
   }
 }
@@ -46,26 +52,20 @@ export default {
 
 <style>
 .article{
-  position: absolute;
-  border: 1px solid rgb(185, 185, 185);
+  position: relative;
+  /*border: 1px solid rgb(185, 185, 185);*/
   background-color: #fff;
 
-  position: absolute;
   /*width: 500px;*/
-  top: 100px;
-  left: 200px;
-  right: 200px;
 }
 
 .articleTitle {
   position: relative;
-  left: 0px;
-  height: 50px;
 }
 
 .articleContent {
   position: relative;
-  left: 60px;
-  width: 1270px;
+  /*left: 60px;*/
+  /*width: 1270px;*/
 }
 </style>

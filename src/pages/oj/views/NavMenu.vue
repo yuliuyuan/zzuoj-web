@@ -1,5 +1,6 @@
 <template>
-  <el-menu router :default-active="'/'+this.$route.path.split('/')[1]" class="el-menu-demo" mode="horizontal"  active-text-color="red"  >
+
+  <el-menu router :default-active="this.activeIndex" class="el-menu-demo" mode="horizontal"  active-text-color="red"  >
     <el-menu-item  class="menu-item">
       <img src="../../../assets/logo.png" height="30" width="30"/>
     </el-menu-item>
@@ -24,11 +25,13 @@ import router from "../../../router";
 export default {
   data() {
     return {
+      activeIndex: '/'
     };
   },
 
-  watch:{
-
+  created() {
+    var temp = window.location.href.split('?')[0]
+    this.activeIndex = '/' + temp.split('/')[3]
   },
 
   mounted() {

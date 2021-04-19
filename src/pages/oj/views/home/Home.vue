@@ -62,6 +62,7 @@
 <script>
 import api from '@/util/api';
 import { mapGetters, mapActions } from 'vuex'
+import local_store from '@/util/local_store.vue'
 
 export default {
   data() {
@@ -74,7 +75,8 @@ export default {
   },
 
   created() {
-    this.currentPage = this.getContextData("currentArticleListPage")
+    // this.currentPage = this.getContextData("currentArticleListPage")
+    this.currentPage = local_store.getContextDataSessionStorage("currentArticleListPage")
   },
 
   computed: {
@@ -117,7 +119,7 @@ export default {
         this.setNewsList(res);
         this.setPageIndex(pos)
 
-        this.setContextData("currentArticleListPage", this.currentPage)
+        local_store.setContextDataInSessionStorage("currentArticleListPage", this.currentPage)
         this.routerToListPage();
       }).catch( err => {
         console.log("handleCurrentChange error:" + err)
@@ -138,26 +140,7 @@ export default {
       })
     },
 
-    // 在sessionStorage设置值
-    setContextData: function (key, value) {
-      if (typeof value == "string") {
-        localStorage.setItem(key, value);
-      } else {
-        localStorage.setItem(key, JSON.stringify(value));
-      }
-    },
-    // 从sessionStorage取值
-    getContextData: function (key) {
-      const str = localStorage.getItem(key);
-      if (typeof str == "string") {
-        try {
-          return JSON.parse(str);
-        } catch (e) {
-          return str;
-        }
-      }
-      return;
-    }
+
   },
 }
 </script>

@@ -2,7 +2,7 @@ import ContestList from "@manage/views/contest/ContestList.vue";
 import ContestAdd from "@manage/views/contest/ContestAdd.vue";
 import ContestDetail from "@manage/views/contest/ContestDetail.vue";
 import ContestManage from "@manage/views/contest/ContestManage.vue";
-import Global from '@/Global.vue'
+import Global from '@/Global.js'
 
 export default [
     {

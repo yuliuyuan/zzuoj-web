@@ -1,14 +1,16 @@
 <template>
+  <!--      :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"-->
   <el-table
-      :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+      :data="tableData"
+      stripe
       style="width: 100%">
     <el-table-column
         label="Title"
         width="800"
     >
-<!--      <template #default="scope">-->
-<!--        <el-button  @click="routerToArticle(scope.row.newsId)">{{scope.row.title}} </el-button>-->
-<!--      </template>-->
+      <template #default="scope">
+        <el-button  @click="routerToArticle(scope.row.newsId)">{{scope.row.title}} </el-button>
+      </template>
     </el-table-column>
 
     <el-table-column
@@ -62,6 +64,7 @@
 <script>
 import api from '@/util/api';
 import { mapGetters, mapActions } from 'vuex'
+import local_store from '@/util/local_store.vue'
 
 export default {
   data() {
@@ -71,6 +74,11 @@ export default {
       newsCnt: 0,
       pageSize: 3,
     }
+  },
+
+  created() {
+    this.currentPage = local_store.getContextDataSessionStorage("currentArticleListPageAdmin")
+
   },
 
   mounted() {
@@ -88,6 +96,8 @@ export default {
     ...mapGetters(['newsListGetter', 'newByIdGetter', 'pageIndexGetter','newsCntGetter']),
   },
   methods: {
+    ...mapActions(['setNewsList','setPageIndex','setNewsCnt']),
+
     handleNewsCnt(){
       api.getNewsCnt().then( res => {
         this.newsCnt = res;
@@ -105,9 +115,10 @@ export default {
         //更新vuex中的值
         this.setNewsList(res);
         this.setPageIndex(pos)
-
-        this.setContextData("currentArticleListPage", this.currentPage)
-        this.routerToListPage();
+        //
+        local_store.setContextDataInSessionStorage("currentArticleListPageAdmin", this.currentPage);
+        // this.setContextData("currentArticleListPage", this.currentPage)
+        this.routerToNewsList();
       }).catch( err => {
         console.log("handleCurrentChange error:" + err)
       })
@@ -120,6 +131,19 @@ export default {
       console.log(index, row);
     },
 
+    routerToArticle: function (newsId){
+      this.$router.push('/admin/news/show/'+newsId)
+    },
+
+    routerToNewsList: function (){
+      this.$router.push({
+        path: '/admin/news/show',
+        query: {
+          pos: this.currentPage,
+          limit: this.pageSize,
+        }
+      })
+    }
 
   }
 }

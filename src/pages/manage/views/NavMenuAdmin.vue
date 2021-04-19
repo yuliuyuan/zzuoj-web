@@ -1,9 +1,9 @@
 <template>
-  <el-menu :uniqueOpened="false" :default-openeds="['/admin/news']" class="el-menu-vertical" active-text-color="DodgerBlue" router="true" >
+  <el-menu :uniqueOpened="false" :default-active="this.activeIndex" :default-openeds="['/admin/news']" class="el-menu-vertical" active-text-color="DodgerBlue" router >
     <el-submenu index="/admin/news">
       <template #title><i class="el-icon-notebook-2"></i>新闻管理</template>
       <el-menu-item-group>
-        <el-menu-item index="/admin/news/list">新闻列表管理</el-menu-item>
+        <el-menu-item index="/admin/news/show">新闻列表管理</el-menu-item>
         <el-menu-item index="/admin/news/add ">添加新闻</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
@@ -48,10 +48,25 @@
 
 <script>
 export default {
+  data(){
+    return {
+      activeIndex: '/'
+    }
+  },
+  created() {
+    var temp = window.location.href.split('?')[0]
+    this.activeIndex = '/' + temp.split('/')[3] + '/' + temp.split('/')[4] + '/' + temp.split('/')[5]
+  },
   methods: {
     swapToUserPage(){
       this.$router.push("/")
     }
+  },
+  mounted() {
+    //this.$route mouted的时候没有值
+    // var temp = this.$route.path.split('?')[0]
+    var temp = window.location.href.split('?')[0]
+    this.activeIndex = '/' + temp.split('/')[3] + '/' + temp.split('/')[4] + '/' + temp.split('/')[5]
   }
 }
 </script>

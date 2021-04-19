@@ -1,9 +1,9 @@
 <template>
 <!--  前端-->
-  <div class="app" v-if="!this.isBackedManage">
+  <div class="user" v-if="!this.isBackedManage">
     <el-container>
       <el-header><navmenu></navmenu></el-header>
-      <el-main class="appMain">
+      <el-main class="userMain">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -11,12 +11,13 @@
 <!-- admin-->
   <div class="admin" v-if="this.isBackedManage">
     <el-container style="border: 1px solid #eee">
-      <el-aside class="el-aside" width="200px" style="background-color: rgb(238, 241, 246)">
+
+      <el-aside class="admin-aside" width="200px" style="background-color: rgb(238, 241, 246)">
         <navmenumanage></navmenumanage>
       </el-aside>
 
       <el-container>
-        <el-header class="manage-header" style="text-align: right; font-size: 12px">
+        <el-header class="admin-header" style="text-align: right; font-size: 12px">
           <el-dropdown>
             <i class="el-icon-setting" style="margin-right: 15px"></i>
             <template #dropdown>
@@ -29,8 +30,7 @@
           </el-dropdown>
           <span>salix</span>
         </el-header>
-
-        <el-main class="manageMain">
+        <el-main class="admin-content">
           <router-view name="manage"/>
         </el-main>
       </el-container>
@@ -69,9 +69,8 @@ export default {
 </script>
 
 <style>
-.app {
+.user {
   /*background-color: aliceblue;*/
-
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -80,16 +79,22 @@ export default {
   margin-top: 0px;
 }
 
-.appMain {
+.userMain {
   /*background-color: aliceblue;*/
 }
 
-.manage-header {
+.admin {
+}
+
+.admin-aside {
+  background-color: #B3C0D1;
+}
+
+.admin-header {
   background-color: #B3C0D1;
   color: #333;
 }
 
-.el-aside {
-  color: #333;
+.admin-content {
 }
 </style>

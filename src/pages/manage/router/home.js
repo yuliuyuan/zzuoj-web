@@ -1,4 +1,4 @@
-import HomeView from '@manage/views/home/HomeView.vue'
+import HomeView from '@manage/views/home/Home.vue'
 import Global from '@/Global.js'
 
 export default [

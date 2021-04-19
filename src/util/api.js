@@ -156,10 +156,25 @@ export default {
     //experiment相关
 
     //contest相关
+    getContestList: function (params) {
+        return get(contest_url + '/contest/show', params);
+    },
+
+    getContestById: function (params) {
+        return get( contest_url + '/contest/get', params)
+    },
+
+    getContestCnt: function () {
+        return get( contest_url + '/contest/cnt');
+    },
+
+    setContestConfig: function (params){
+        return post( contest_url + '/contest/set', params)
+    },
 
     //file相关
     getNewsList: function (params) {
-        return get(file_url + '/news/show', params);
+        return get( file_url + '/news/show', params);
     },
 
     getNewById: function (params) {

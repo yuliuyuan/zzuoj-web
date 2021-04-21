@@ -37,11 +37,11 @@
       <template #default="scope">
         <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+            @click="handleEdit(scope.row.newsId)">Edit</el-button>
         <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+            @click="handleDelete(scope.row.newsId)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -72,7 +72,7 @@ export default {
       tableData: [],
       currentPage: 1,
       newsCnt: 0,
-      pageSize: 3,
+      pageSize: 10,
     }
   },
 
@@ -124,15 +124,22 @@ export default {
       })
     },
 
-    handleEdit(index, row) {
-      console.log(index, row);
+    handleEdit(newsId) {
+      this.$router.push("/admin/news/edit/" + newsId)
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+    handleDelete(newsId) {
+      var params = {id : newsId}
+      api.deleteNews(params).then( res => {
+        //todo: 修改返回数据的方式
+        alert(res)
+        this.handleCurrentChange(this.currentPage)
+      }).catch( err => {
+        alert("delete news fail!")
+      })
     },
 
     routerToArticle: function (newsId){
-      this.$router.push('/admin/news/show/'+newsId)
+      this.$router.push('/admin/news/show/' + newsId)
     },
 
     routerToNewsList: function (){

@@ -1,12 +1,12 @@
 <template>
   <div class="article">
     <div class="articleTitle">
-      <h1 >{{this.newShow.title}}</h1>
+      <h1 >{{this.newsShow.title}}</h1>
     </div>
     <el-divider></el-divider>
 
     <div class="articleContent">
-      {{this.newShow.content}}
+      {{this.newsShow.content}}
     </div>
   </div>
 </template>
@@ -21,7 +21,7 @@ export default {
   props: ['id'],
   data() {
     return {
-      newShow: {title:"兜底",content:"兜底"},
+      newsShow: {title:"兜底",content:"兜底"},
     }
   },
 
@@ -33,9 +33,9 @@ export default {
     handleGetNewByNewId: function (newId) {
       var params = {id : newId}
       api.getNewById(params).then( res => {
-        this.newShow = res;
+        this.newsShow = res;
         console.log("!!!!")
-        console.log(this.newShow)
+        console.log(this.newsShow)
       }).catch( err => {
         console.log("get new by id err:" + err);
       })

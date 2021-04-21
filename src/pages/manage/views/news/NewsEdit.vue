@@ -30,7 +30,7 @@
         </el-form-item>
 
         <el-form-item class="ContentMain">
-          <el-input v-model="form.content"  placeholder="请输入文章内容" type="textarea" :rows="25"></el-input>
+          <el-input v-model="this.form.content"  placeholder="请输入文章内容" type="textarea" :rows="25"></el-input>
         </el-form-item>
       </el-form>
 
@@ -38,7 +38,7 @@
 
       <div class="Button">
 
-        <el-button type="primary" @click="handleAddNews(this.form)">提交</el-button>
+        <el-button type="primary" @click="handleUpdateNews(this.form)">提交</el-button>
       </div>
     </div>
   </div>
@@ -54,8 +54,9 @@ export default {
   data() {
     return {
       form: {
-        title: '做个测试吧小火',
-        content: 'lark core service nb',
+        newsId: 0,
+        title: '',
+        content: '',
         defunct: 'N',
         // importance,2表示是普通级别，1表示是置顶
         importance: 2,
@@ -63,20 +64,35 @@ export default {
     }
   },
 
+  mounted() {
+    this.handleGetNewByNewId();
+  },
+
   methods: {
-    handleAddNews(data){
-      api.addNews(data).then( res => {
-        this.open(res)
-      }).catch(err => {
-        //todo: 做个兜底
-        console.log(err)
-        this.$alert('add news fail');
+    handleGetNewByNewId: function () {
+      var params = {id : this.$route.params.id}
+      api.getNewById(params).then( res => {
+        this.form.newsId =
+        this.form.title = res.title;
+        this.form.content = res.content;
+        this.form.defunct = res.defunct;
+        this.form.importance = res.importance;
+        console.log("++++++++++++edit news+++++++++")
+        console.log(this.form);
+      }).catch( err => {
+        console.log("get new by id err:" + err);
       })
     },
 
-    open(data) {
-      alert(data);
-      // console.log(data)
+    handleUpdateNews: function () {
+      var data = {newsId : Number(this.$route.params.id), title : this.form.title,
+                    content : this.form.content, defunct : this.form.defunct,
+                    importance : this.importance}
+      api.updateNews(data).then( res => {
+        alert("update news success")
+      }).catch( err => {
+        alert("update news fail")
+      })
     }
   }
 }

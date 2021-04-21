@@ -183,6 +183,18 @@ export default {
 
     getNewsCnt: function () {
         return get( file_url + '/news/cnt');
+    },
+
+    addNews: function (data) {
+        return post( file_url + '/news/add', data);
+    },
+
+    deleteNews:  function (params) {
+        return get( file_url +  '/news/delete', params)
+    },
+
+    updateNews: function (data) {
+        return post( file_url + '/news/update', data)
     }
 }
 

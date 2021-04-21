@@ -107,6 +107,8 @@ export default {
   methods: {
     handleAddProblem(data){
       api.addProblem(data).then( res => {
+        console.log("-----problem----");
+        console.log(data)
         console.log(res);
       }).catch(err => {
         console.log("add problem err" + err);

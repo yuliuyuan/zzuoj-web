@@ -21,19 +21,20 @@ export default [
         props: true
     },
     {
-        path: Global.admin_base_url_prefix + '/news/add',
-        name: 'addNews',
-        components: {
-            manage: newsAdd
-        },
-    },
-    {
-        path: Global.admin_base_url_prefix + '/news/edit/:id',
+        path: Global.admin_base_url_prefix + '/news/show/edit/:id',
         name: 'editNews',
         components: {
             manage: newsEdit
         },
         props: true
     },
+    {
+        path: Global.admin_base_url_prefix + '/news/add',
+        name: 'addNews',
+        components: {
+            manage: newsAdd
+        },
+    },
+
 
 ]

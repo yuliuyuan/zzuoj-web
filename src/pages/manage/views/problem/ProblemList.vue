@@ -46,15 +46,36 @@
         label="提交数"
         width="180">
     </el-table-column>
+
+    <el-table-column
+        align="right">
+      <template #header>
+        <el-input
+            v-model="search"
+            size="mini"
+            placeholder="输入关键字搜索"/>
+      </template>
+      <template #default="scope">
+        <el-button
+            size="mini"
+            @click="handleEdit(scope.row.problemId)">Edit</el-button>
+        <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.row.problemId)">Delete</el-button>
+      </template>
+    </el-table-column>
   </el-table>
 
+  <!--    分页光标、刷新回到第一页解决方法： https://www.jianshu.com/p/0ac112bb19e8-->
   <div class="block">
     <el-pagination
         @current-change="handleCurrentChange"
         v-model:currentPage="currentPage"
         :page-size="pageSize"
         layout="prev, pager, next, jumper"
-        :total="problemCnt">
+        :total="problemCnt"
+        v-if="this.problemCnt != 0">
     </el-pagination>
   </div>
 
@@ -62,6 +83,8 @@
 
 <script>
 import api from "@/util/api";
+import {mapGetters, mapActions} from 'vuex'
+import local_store from '@/util/local_store.vue'
 
 export default {
   data() {
@@ -69,28 +92,40 @@ export default {
       tableData: [],
       currentPage: 1,
       problemCnt: 0,
-      pageSize: 10,
+      pageSize: 8,
     }
   },
 
-  watch: {
+  computed:{
+    ...mapGetters(['problemsListGetter', 'problemPageIndexGetter', 'problemsCntGetter']),
+  },
+
+  created() {
+    this.currentPage = local_store.getContextDataLocalStorage("currentProblemListPage")
   },
 
   mounted() {
-    this.currentPage = 1;
-    if(this.tableData.length == 0){
-      this.handleCurrentChange(1);
+    if( this.problemsListGetter.length != 0 && this.problemPageIndexGetter == this.currentPage && this.problemsCntGetter != this.newsCnt ){
+      this.problemCnt = this.problemsCntGetter
+      this.tableData = this.problemsListGetter
+      this.currentPage = this.problemPageIndexGetter
+    } else {
       this.handleProblemCnt();
+      this.handleCurrentChange(this.currentPage);
     }
   },
 
   methods: {
+    ...mapActions(['setProblemsList', 'setProblemPageIndex', 'setProblemsCnt']),
+
     handleChangeDefunctStatus(index, newStatus) {
       //先把状态变回去
       this.tableData[index].defunct = newStatus == 'Y' ? 'N':'Y';
 
       var data = {pid: this.tableData[index].problemId, newStatus: newStatus}
       api.switchDefunctStatus(data).then( res => {
+
+
         this.tableData[index].defunct = newStatus;
       }).catch(err => {
         console.log("切换状态失败");
@@ -101,20 +136,43 @@ export default {
     handleProblemCnt(){
       api.getProblemCnt().then( res => {
         this.problemCnt = res;
+
+        this.setProblemsCnt(res)
       }).catch( err => {
         console.log("get problem cnt error!")
       })
     },
+
     handleCurrentChange(pos) {
       var data = {pos: pos-1, limit: this.pageSize}
       api.showProblem(data).then( res => {
         console.log(res)
         this.tableData = res;
+
+        this.setProblemsList(res);
+        this.setProblemPageIndex(pos)
+
+        local_store.setContextDataInLocalStorage("currentProblemListPage", this.currentPage)
       }).catch( err => {
         console.log("handleCurrentChange error!")
         console.log(err)
       })
-    }
+    },
+
+    handleEdit(problemId) {
+      this.$router.push("/admin/news/show/edit/" + problemId)
+    },
+
+    handleDelete(problemId) {
+      var params = {problemId : problemId}
+      api.deleteProblemById(params).then( res => {
+        // todo: 修改返回数据的方式
+        alert(res)
+        this.handleCurrentChange(this.currentPage)
+      }).catch( err => {
+        alert("delete problems fail!")
+      })
+    },
   },
 }
 </script>

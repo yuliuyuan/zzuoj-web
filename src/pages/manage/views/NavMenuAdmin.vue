@@ -19,7 +19,7 @@
     <el-submenu index="/admin/problem">
       <template #title><i class="el-icon-s-order"></i>题目管理</template>
       <el-menu-item-group>
-        <el-menu-item index="/admin/problem/list">题目列表管理</el-menu-item>
+        <el-menu-item index="/admin/problem/show">题目列表管理</el-menu-item>
         <el-menu-item index="/admin/problem/add">添加题目</el-menu-item>
       </el-menu-item-group>
     </el-submenu>

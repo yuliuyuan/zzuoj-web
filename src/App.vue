@@ -11,7 +11,6 @@
 <!-- admin-->
   <div class="admin" v-if="this.isBackedManage">
     <el-container style="border: 1px solid #eee">
-
       <el-aside class="admin-aside" width="200px" style="background-color: rgb(238, 241, 246)">
         <navmenumanage></navmenumanage>
       </el-aside>
@@ -42,6 +41,9 @@
 
 import NavMenu from "@oj/views/NavMenu.vue";
 import NavMenuManage from "@manage/views/NavMenuAdmin.vue"
+import { mapGetters, mapActions } from 'vuex'
+import local_store from "@/util/local_store";
+import jwtDecode from "jwt-decode";
 
 export default {
   name: 'app',
@@ -51,10 +53,35 @@ export default {
       isBackedManage: false
     }
   },
+
+  mounted() {
+    var token = local_store.getContextDataLocalStorage("Authorization")
+    const temp =  jwtDecode(token);
+    var userProfile = JSON.parse(temp.sub);
+    this.setProfile(userProfile);
+  },
+
+  computed: {
+    ...mapGetters(['isAdminGetter','profileGetter','problemsListGetter']),
+  },
+
   watch:{
+    //监测前后端的界面的切换
     $route(to,from){
-      if(to.path.indexOf("/admin") == 0){
-        this.isBackedManage = true;
+      var toPre = to.path.indexOf("/admin");
+      var fromPre = from.path.indexOf("/admin")
+      if(toPre == 0){
+        //user->admin 需要鉴权
+        if( fromPre !=0 ){
+          if( this.isAdminGetter ){
+            this.isBackedManage = true;
+            // this.$router.push("/admin/news/show")
+          } else {
+            this.$router.push("/401");
+          }
+        } else {
+          this.isBackedManage = true;
+        }
       } else {
         this.isBackedManage = false;
       }
@@ -64,6 +91,10 @@ export default {
   components: {
     'navmenu': NavMenu,
     'navmenumanage': NavMenuManage,
+  },
+
+  methods: {
+    ...mapActions(['setProfile']),
   }
 }
 </script>

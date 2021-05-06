@@ -1,41 +1,45 @@
-/*
- * Copyright 2020-2021 the original author or authors.
- *
- * Licensed under the General Public License, Version 3.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.gnu.org/licenses/gpl-3.0.en.html
- */
-
-
 import {USER_ROLE} from "@/util/enums";
 
 const state = {
   profile: {}
+  // profile包含：userId; nickName; email; (Integer) role;
+  // role, 当1==role&1为root、2==role&2为admin、否则为user
 }
-//profile:username、isLogin、isVerified、isAdmin
 const getters = {
-  profile: state =>  state.profile ||  {},
-  username: state =>  state.profile.username || {},
-  isLogin: state => !!state.profile.userId,
-  isVerified: state => !!state.profile.emailVerified,
-  isAdmin: (state, getters) => {
-    if(!getters.isLogin){
+  profileGetter: state =>  {
+    return state.profile;
+  },
+  userIdGetter: state =>  state.profile.userId || {},
+  nickNameGetter: state => state.profile.nickName || {},
+  roleGetter: state =>  {
+    if( state.profile.role & 1) return "root";
+    if( state.profile.role & 2) return "admin";
+    return "user";
+  },
+  isLoginGetter: state => !!state.profile.userId,
+  isAdminGetter: state => {
+    if(!getters.isLoginGetter){
       return false;
     }
-    var isAdmin = false;
-    (state.profile.roles || []).forEach(role => (isAdmin |= USER_ROLE[role].isAdmin));
+    if(!getters.profileGetter){
+      return false;
+    }
+    return  (state.profile.role & 1) || (state.profile.role & 2);
+  },
+  isRootGetter: state => {
+    if(!getters.isLoginGetter){
+      return false;
+    }
+    return  (state.profile.role & 1);
   }
 }
 
 const mutations = {
   setProfile: function (state,profile){
-    state.profile = Object.assign({}, profile);
-    window.localStorage.setItem("isLogin",!!profile.userId);
+    state.profile = profile;
   },
   clearProfile: function (state){
-    window.localStorage.clear();
+    state.profile = null;
   },
 }
 
@@ -50,9 +54,9 @@ const actions = {
 }
 
 export default {
-  namespaced: true,
+  namespace: true,
   state,
   getters,
   mutations,
-  actions
+  actions,
 }

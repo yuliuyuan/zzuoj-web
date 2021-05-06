@@ -77,7 +77,6 @@ export default {
         this.form.content = res.content;
         this.form.defunct = res.defunct;
         this.form.importance = res.importance;
-        console.log("++++++++++++edit news+++++++++")
         console.log(this.form);
       }).catch( err => {
         console.log("get new by id err:" + err);

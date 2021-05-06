@@ -72,12 +72,12 @@ export default {
       tableData: [],
       currentPage: 1,
       newsCnt: 0,
-      pageSize: 10,
+      pageSize: 8,
     }
   },
 
   created() {
-    this.currentPage = local_store.getContextDataSessionStorage("currentArticleListPageAdmin")
+    this.currentPage = local_store.getContextDataLocalStorage("currentArticleListPageAdmin")
 
   },
 
@@ -93,10 +93,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['newsListGetter', 'newByIdGetter', 'pageIndexGetter','newsCntGetter']),
+    ...mapGetters(['newsListGetter', 'newByIdGetter', 'newsPageIndexGetter','newsCntGetter']),
   },
   methods: {
-    ...mapActions(['setNewsList','setPageIndex','setNewsCnt']),
+    ...mapActions(['setNewsList','setNewsPageIndex','setNewsCnt']),
 
     handleNewsCnt(){
       api.getNewsCnt().then( res => {
@@ -104,7 +104,7 @@ export default {
         //更新vuex中的值
         this.setNewsCnt(res);
       }).catch( err => {
-        console.log("get news cnt error:" + err)
+        alert(err);
       })
     },
     handleCurrentChange(pos) {
@@ -114,18 +114,18 @@ export default {
         this.currentPage = pos;
         //更新vuex中的值
         this.setNewsList(res);
-        this.setPageIndex(pos)
+        this.setNewsPageIndex(pos)
         //
-        local_store.setContextDataInSessionStorage("currentArticleListPageAdmin", this.currentPage);
+        local_store.setContextDataInLocalStorage("currentArticleListPageAdmin", this.currentPage);
         // this.setContextData("currentArticleListPage", this.currentPage)
         this.routerToNewsList();
       }).catch( err => {
-        console.log("handleCurrentChange error:" + err)
+        alert(err);
       })
     },
 
     handleEdit(newsId) {
-      this.$router.push("/admin/news/edit/" + newsId)
+      this.$router.push("/admin/news/show/edit/" + newsId)
     },
     handleDelete(newsId) {
       var params = {id : newsId}

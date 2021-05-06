@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import manageRouters from '@manage/router/index.js'
 import ojRouters from '@oj/router/index.js'
 
-import notFound from '@oj/views/404.vue'
+
 // @/router下的文件和view目录是一一对应的
 
 const router = createRouter({
@@ -11,12 +11,6 @@ const router = createRouter({
   routes: [
       ...manageRouters,
       ...ojRouters,
-      //404兜底
-      {
-          path: '/:pathMatch(.*)*',
-          name: 'NotFound',
-          component: notFound
-      }
     ],
 })
 // router.getRoutes().forEach((valueindex)=>{

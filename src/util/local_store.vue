@@ -1,17 +1,16 @@
 
 <script>
 export default {
-  // 在sessionStorage设置值
-    setContextDataInSessionStorage: function (key, value) {
+  // 在Storage设置值
+    setContextDataInLocalStorage: function (key, value) {
       if (typeof value == "string") {
         localStorage.setItem(key, value);
       } else {
         localStorage.setItem(key, JSON.stringify(value));
       }
-      return;
     },
-// 从sessionStorage取值
-    getContextDataSessionStorage: function (key) {
+// 从StorageStorage取值
+    getContextDataLocalStorage: function (key) {
       const str = localStorage.getItem(key);
       if (typeof str == "string") {
         try {
@@ -20,9 +19,11 @@ export default {
           return str;
         }
       }
-      return;
-    }
-
+      return null;
+    },
+  deleteContextDataInDataStorage: function (key) {
+      localStorage.removeItem(key);
+  }
 }
 
 </script>

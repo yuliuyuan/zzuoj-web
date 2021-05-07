@@ -4,12 +4,13 @@ import homeRoutes from '@manage/router/home.js'
 import problemRoutes from '@manage/router/problem.js'
 import contest from '@manage/router/contest.js'
 import news from '@manage/router/news.js'
+import other from '@manage/router/other.js'
 
 // @/router下的文件和view目录是一一对应的
 export default [
-    ...homeRoutes,
-    ...problemRoutes,
-    ...contest,
-    ...news,
+    // other放到最后，因为有401，404
+    ...homeRoutes, ...problemRoutes, ...contest, ...news,
+    ...other,
+
 ]
 

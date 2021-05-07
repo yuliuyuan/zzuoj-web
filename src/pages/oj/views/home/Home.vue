@@ -1,4 +1,7 @@
 <template>
+<!--  <div class="test">-->
+<!--    <button @click="routerToProblem()">test</button>-->
+<!--  </div>-->
   <div class="home">
     <div class="homeTitle" >
       <div class="homeTitleName">
@@ -13,11 +16,10 @@
       <el-table
           :data="tableData"
           stripe
-          style="width: 100%"
           >
         <el-table-column
             label="Title"
-            width="800"
+            width="700"
         >
           <template #default="scope">
             <el-button  @click="routerToArticle(scope.row.newsId)">{{scope.row.title}} </el-button>
@@ -37,6 +39,24 @@
             width="235"
         >
         </el-table-column>
+
+        <!--        </el-table-column>-->
+        <!--          <template #header>-->
+        <!--            <el-input-->
+        <!--                v-model="search"-->
+        <!--                size="mini"-->
+        <!--                placeholder="输入关键字搜索"/>-->
+        <!--          </template>-->
+        <!--          <template #default="scope">-->
+        <!--            <el-button-->
+        <!--                size="mini"-->
+        <!--                @click="handleEdit(scope.row.newsId)">Edit</el-button>-->
+        <!--            <el-button-->
+        <!--                size="mini"-->
+        <!--                type="danger"-->
+        <!--                @click="handleDelete(scope.row.newsId)">Delete</el-button>-->
+        <!--          </template>-->
+        <!--        <el-table-column>-->
       </el-table>
     </div>
 
@@ -70,37 +90,35 @@ export default {
       tableData: [],
       currentPage: 1,
       newsCnt: 0,
-      pageSize: 3,
+      pageSize: 8,
     }
   },
 
   created() {
     // this.currentPage = this.getContextData("currentArticleListPage")
-    this.currentPage = local_store.getContextDataSessionStorage("currentArticleListPage")
+    this.currentPage = local_store.getContextDataLocalStorage("currentArticleListPage")
   },
 
   computed: {
-    ...mapGetters(['newsListGetter', 'newByIdGetter', 'pageIndexGetter','newsCntGetter']),
-
+    ...mapGetters(['newsListGetter', 'newByIdGetter','newsPageIndexGetter', 'newsCntGetter']),
   },
 
   //当前页面a a->b->a 跳转页面之后回来还会执行mounted，但是不会执行data中的初始化
   mounted() {
 
-    if( this.newsListGetter.length != 0 && this.pageIndexGetter == this.currentPage && this.newsCntGetter != this.newsCnt ){
+    if( this.newsListGetter.length != 0 && this.newsPageIndexGetter == this.currentPage && this.newsCntGetter != this.newsCnt ){
       this.newsCnt = this.newsCntGetter
       this.tableData = this.newsListGetter
-      this.currentPage = this.pageIndexGetter
+      this.currentPage = this.newsPageIndexGetter
     } else {
       this.handleNewsCnt();
       this.handleCurrentChange(this.currentPage);
     }
-    // this.routerToListPage();
   },
 
   //前端是否要存储数据
   methods: {
-    ...mapActions(['setNewsList','setPageIndex','setNewsCnt']),
+    ...mapActions(['setNewsList','setNewsPageIndex','setNewsCnt']),
     handleNewsCnt(){
       api.getNewsCnt().then( res => {
         this.newsCnt = res;
@@ -113,18 +131,21 @@ export default {
     handleCurrentChange(pos) {
       var params = {pos: pos, limit: this.pageSize}
       api.getNewsList(params).then( res => {
+        console.log(res)
         this.tableData = res;
         this.currentPage = pos;
         //更新vuex中的值
         this.setNewsList(res);
-        this.setPageIndex(pos)
+        this.setNewsPageIndex(pos)
 
-        local_store.setContextDataInSessionStorage("currentArticleListPage", this.currentPage)
+        local_store.setContextDataInLocalStorage("currentArticleListPage", this.currentPage)
         this.routerToListPage();
       }).catch( err => {
         console.log("handleCurrentChange error:" + err)
       })
     },
+
+
 
     routerToArticle: function (newsId){
       this.$router.push('/home/article/'+newsId)
@@ -139,8 +160,9 @@ export default {
         }
       })
     },
-
-
+    // routerToProblem: function () {
+    //   this.$router.push('/problem')
+    // }
   },
 }
 </script>
@@ -180,8 +202,9 @@ export default {
 
 .homeForm {
   position: relative;
-  left: 60px;
-  width: 1270px;
+  left: 50px;
+  /*right: 50px;*/
+  width: 1130px;
 }
 
 </style>

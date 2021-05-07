@@ -23,20 +23,14 @@ function post(url, data){
     return new Promise((resolve, reject) => {
         axios.post(url,data)
             .then(response => {
-                console.log("1111111");
                 //服务端common包里定义所有正确的response.data.code都是200
-                if(response.data.code === 200) {
-                    console.log("222222");
+                if(response.data.code === 1) {
                     resolve(response.data.data);
                 } else {
-                    console.log("333333");
-                    reject(response.data);
+                    reject(response.data.msg);
                 }
-                //todo：需要更新一些Session时间
             }), err => {
-                console.log("444444");
                 reject(err.response.data);
-                //todo: 也需要更新一下session时间
             }
     })
 }
@@ -72,10 +66,10 @@ function get(url, params) {
     return new Promise((resolve, reject) => {
         axios.get(url,{ params })
             .then(response => {
-                if(response.data.code === 200 ){
+                if(response.data.code === 1 ){
                     resolve(response.data.data);
                 } else{
-                    reject(response.data.data);
+                    reject(response.data.msg);
                 }
                 //todo: 更新一下session时间
             }), err => {
@@ -121,6 +115,10 @@ export default {
     login: function(data) {
         return post(user_url+'/user/login', data);
     },
+
+    registry: function (data) {
+        return post(user_url+'/user/registry', data);
+    },
     // logout: function() {
     //     return get('/user/logout');
     // },
@@ -135,23 +133,32 @@ export default {
     // },
 
     //problem 相关
-    addProblem: function (data) {
-        return post(problem_url + '/problem/add',data);
-    },
+
 
     showProblem: function (params) {
         return get(problem_url + '/problem/show',params);
+    },
+
+    getProblemById: function (params) {
+        return get( problem_url + '/problem/get', params);
     },
 
     getProblemCnt: function (){
         return get(problem_url + '/problem/cnt');
     },
 
-    //切换问题是否禁用状态
-    switchDefunctStatus: function (data){
-        return post( problem_url + '/problem/isdefunct', data)
+    deleteProblemById: function (params) {
+        return get( problem_url + '/admin/problem/delete', params);
     },
 
+    addProblem: function (data) {
+        return post(problem_url + '/admin/problem/add',data);
+    },
+
+    //切换问题是否禁用状态
+    switchDefunctStatus: function (data){
+        return post( problem_url + '/admin/problem/switchDefunct', data)
+    },
 
     //experiment相关
 
@@ -186,15 +193,15 @@ export default {
     },
 
     addNews: function (data) {
-        return post( file_url + '/news/add', data);
+        return post( file_url + '/admin/news/add', data);
     },
 
     deleteNews:  function (params) {
-        return get( file_url +  '/news/delete', params)
+        return get( file_url +  '/admin/news/delete', params)
     },
 
     updateNews: function (data) {
-        return post( file_url + '/news/update', data)
+        return post( file_url + '/admin/news/update', data)
     }
 }
 

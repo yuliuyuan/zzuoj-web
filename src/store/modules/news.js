@@ -1,4 +1,4 @@
-//缓存所有的新闻
+//缓存新闻列表
 
 const state = {
     newsList: [],
@@ -12,7 +12,7 @@ const getters = {
         return state.newsList || [];
     },
 
-    pageIndexGetter: (state) => {
+    newsPageIndexGetter: (state) => {
       return state.pageIndex;
     },
 
@@ -25,7 +25,7 @@ const mutations = {
     setNewsList (state, data){
         state.newsList = [...data];
     },
-    setPageIndex (state, pos){
+    setNewsPageIndex (state, pos){
         state.pageIndex = pos;
     },
     setNewsCnt (state, cnt){
@@ -41,8 +41,8 @@ const actions = {
         //     commit('setNewsList',data)
         // }, 1000)
     },
-    setPageIndex({commit}, pos){
-        commit('setPageIndex', pos);
+    setNewsPageIndex({commit}, pos){
+        commit('setNewsPageIndex', pos);
     },
 
     setNewsCnt({commit}, cnt){
@@ -51,14 +51,10 @@ const actions = {
 }
 
 export default {
-    modules: {
-        news: {
-            namespace: true,
-            state,
-            getters,
-            mutations,
-            actions,
-        }
-    }
+    namespace: true,
+    state,
+    getters,
+    mutations,
+    actions,
 
 }

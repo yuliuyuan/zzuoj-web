@@ -35,7 +35,6 @@ export default {
       var params = {id : newId}
       api.getNewById(params).then( res => {
         this.newsShow = res;
-        console.log("------ ")
         console.log(this.newsShow)
       }).catch( err => {
         console.log("get new by id err:" + err);
@@ -44,7 +43,6 @@ export default {
   },
 
   mounted() {
-    console.log("+++++++++++"+this.$route.params.id)
     this.handleGetNewByNewId(this.$route.params.id);
   }
 }

@@ -1,9 +1,9 @@
 <template>
-  <h1>admin 404</h1>
+  <p>admin 401</p>
 </template>
 
 <script>
 export default {
-  name: 'NotFound'
+  name: 'NoPermission'
 }
 </script>

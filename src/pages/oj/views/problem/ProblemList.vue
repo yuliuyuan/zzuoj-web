@@ -1,14 +1,8 @@
 <template>
   <div class="main">
     <div class="problem">
-      <!--    <div class="showNewsList">{{this.$store.getters.getNewList}}</div>-->
-      <!--    <div>&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</div>-->
-      <!--    <div class="showNewsList">{{this.tableDataTemp}}</div>-->
-
       <div class="problemTitle" >
-        <div class="problemTitleName">
           Problem List
-        </div>
       </div>
       <el-divider></el-divider>
       <div class="problemForm">
@@ -19,10 +13,9 @@
         >
           <el-table-column
               label="Id"
-              width="100"
-          >
+              width="100">
             <template #default="scope">
-              <el-button  @click="routerTo1(scope.row.newsId)">{{scope.row.title}} </el-button>
+              <span>{{(this.currentPage-1)*this.pageSize+(scope.$index + 1)}} </span>
             </template>
           </el-table-column>
 
@@ -31,34 +24,44 @@
               width="400"
           >
             <template #default="scope">
-              <el-button  @click="routerTo1(scope.row.newsId)">{{scope.row.title}} </el-button>
+              <el-button  @click="routerToProblem(scope.row.problemId)">{{scope.row.title}} </el-button>
             </template>
           </el-table-column>
 
-
           <el-table-column
-              prop="level"
+              prop="submit"
               label="Level"
               width="150"
           >
           </el-table-column>
 
           <el-table-column
-              prop="total"
+              prop="submit"
               label="Total"
               width="150"
           >
           </el-table-column>
 
           <el-table-column
-              prop="ac"
+              prop="accepted"
               label="AC"
               width="150"
           >
           </el-table-column>
         </el-table>
+        <!--    分页光标、刷新回到第一页解决方法： https://www.jianshu.com/p/0ac112bb19e8-->
+        <div class="block">
+          <el-pagination
+              @current-change="handleCurrentChange"
+              v-model:currentPage="currentPage"
+              :page-size="pageSize"
+              layout="prev, pager, next, jumper"
+              :total="problemCnt"
+              v-if="this.problemCnt != 0">
+          </el-pagination>
       </div>
     </div>
+   </div>
 
     <div class="tag">
       <div class="tagTitle" >
@@ -75,55 +78,101 @@
 <script>
 import api from '@/util/api';
 import { mapGetters, mapActions } from 'vuex'
+import local_store from '@/util/local_store.vue'
 
 export default {
   data() {
     return {
-      tableData: []
+      tableData: [],
+      currentPage: 1,
+      problemCnt: 0,
+      pageSize: 8,
     }
   },
 
-  //它用于观察Vue实例上的数据变动。对应一个对象，键是观察表达式，值是对应回调。值也可以是方法名，或者是对象，包含选项。
-  watch: {
-
+  computed:{
+    ...mapGetters(['problemsListGetter', 'problemPageIndexGetter', 'problemsCntGetter']),
   },
 
-  //当前页面a a->b->a 跳转页面之后回来还会执行mounted，但是不会执行data中的初始化
+  created() {
+    this.currentPage = local_store.getContextDataLocalStorage("currentProblemListPage")
+  },
+
   mounted() {
-    // if(this.$store.getters.getNewList.length == 0){
-    //   this.handleShowNews();
-    // }
-    // this.tableData = this.tableDataTemp
+    if( this.problemsListGetter.length != 0 && this.problemPageIndexGetter == this.currentPage && this.problemsCntGetter != this.newsCnt ){
+      this.problemCnt = this.problemsCntGetter
+      this.tableData = this.problemsListGetter
+      this.currentPage = this.problemPageIndexGetter
+    } else {
+      this.handleProblemCnt();
+      this.handleCurrentChange(this.currentPage);
+    }
   },
 
-  //先computed再watch，不执行methods；等触发某一事件后，则是：先methods再watch。
-  //计算属性：HTML DOM加载后马上执行的，如赋值；
-  computed: {
-    // tableDataTemp:{
-    //   get: function (){
-    //     return this.$store.getters.getNewList
-    //   },
-    //   set: function (newData){
-    //     return this.$store.dispatch('setNewsList',newData)
-    //   }
-    // }
-  },
-
-  //前端是否要存储数据
   methods: {
-    handleShowNews: function(){
-      api.getNews().then(res => {
-        //api.getNews().then是异步的，第一次mounted中的绑定不会生效
-        this.tableData = res
-        this.tableDataTemp = res || [];
+    ...mapActions(['setProblemsList', 'setProblemPageIndex', 'setProblemsCnt']),
+
+    handleChangeDefunctStatus(index, newStatus) {
+      //先把状态变回去
+      this.tableData[index].defunct = newStatus == 'Y' ? 'N':'Y';
+
+      var data = {pid: this.tableData[index].problemId, newStatus: newStatus}
+      api.switchDefunctStatus(data).then( res => {
+
+
+        this.tableData[index].defunct = newStatus;
       }).catch(err => {
-        //todo: 做个兜底
+        console.log("切换状态失败");
       })
     },
 
-    routerTo1: function (newsId){
-      this.$router.push('/home/article/'+newsId)
-    }
+
+    handleProblemCnt(){
+      api.getProblemCnt().then( res => {
+        this.problemCnt = res;
+
+        this.setProblemsCnt(res)
+      }).catch( err => {
+        console.log("get problem cnt error!")
+      })
+    },
+
+    handleCurrentChange(pos) {
+      var data = {pos: pos-1, limit: this.pageSize}
+      api.showProblem(data).then( res => {
+        console.log(res)
+        this.tableData = res;
+
+        this.setProblemsList(res);
+        this.setProblemPageIndex(pos)
+
+        local_store.setContextDataInLocalStorage("currentProblemListPage", this.currentPage)
+      }).catch( err => {
+        console.log("handleCurrentChange error!")
+        console.log(err)
+      })
+    },
+
+    handleEdit(problemId) {
+      this.$router.push("/admin/news/show/edit/" + problemId)
+    },
+
+    handleDelete(problemId) {
+      var params = {problemId : problemId}
+      api.deleteProblemById(params).then( res => {
+        // todo: 修改返回数据的方式
+        alert(res)
+        this.handleCurrentChange(this.currentPage)
+      }).catch( err => {
+        alert("delete problems fail!")
+      })
+    },
+
+    routerToProblem(problemId) {
+      console.log("begin route")
+      console.log(problemId)
+      this.$router.push('/problem/'+problemId)
+    },
   },
 }
 </script>
@@ -142,6 +191,7 @@ export default {
 
 .problemTitle {
   position: relative;
+  top: 10px;
   left: 0px;
   right: 0px;
 }

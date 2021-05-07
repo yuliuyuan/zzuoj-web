@@ -30,7 +30,7 @@
           <span>salix</span>
         </el-header>
         <el-main class="admin-content">
-          <router-view name="manage"/>
+          <router-view name="manage"></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -56,9 +56,11 @@ export default {
 
   mounted() {
     var token = local_store.getContextDataLocalStorage("Authorization")
-    const temp =  jwtDecode(token);
-    var userProfile = JSON.parse(temp.sub);
-    this.setProfile(userProfile);
+    if(token != null){
+      const temp =  jwtDecode(token);
+      var userProfile = JSON.parse(temp.sub);
+      this.setProfile(userProfile);
+    }
   },
 
   computed: {

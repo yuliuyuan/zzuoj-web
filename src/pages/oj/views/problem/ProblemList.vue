@@ -24,7 +24,7 @@
               width="400"
           >
             <template #default="scope">
-              <el-button  @click="routerTo1(scope.row.newsId)">{{scope.row.title}} </el-button>
+              <el-button  @click="routerToProblem(scope.row.problemId)">{{scope.row.title}} </el-button>
             </template>
           </el-table-column>
 
@@ -166,6 +166,12 @@ export default {
       }).catch( err => {
         alert("delete problems fail!")
       })
+    },
+
+    routerToProblem(problemId) {
+      console.log("begin route")
+      console.log(problemId)
+      this.$router.push('/problem/'+problemId)
     },
   },
 }

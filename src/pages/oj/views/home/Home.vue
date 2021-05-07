@@ -16,11 +16,10 @@
       <el-table
           :data="tableData"
           stripe
-          style="width: 100%"
           >
         <el-table-column
             label="Title"
-            width="800"
+            width="700"
         >
           <template #default="scope">
             <el-button  @click="routerToArticle(scope.row.newsId)">{{scope.row.title}} </el-button>
@@ -203,8 +202,9 @@ export default {
 
 .homeForm {
   position: relative;
-  left: 60px;
-  width: 1270px;
+  left: 50px;
+  /*right: 50px;*/
+  width: 1130px;
 }
 
 </style>

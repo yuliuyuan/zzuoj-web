@@ -77,8 +77,10 @@ export default {
   },
 
   created() {
-    this.currentPage = local_store.getContextDataLocalStorage("currentArticleListPageAdmin")
-
+    var temp = local_store.getContextDataLocalStorage("currentArticleListPageAdmin")
+    if( temp == null ){
+      this.currentPage = local_store.getContextDataLocalStorage("currentArticleListPageAdmin")
+    }
   },
 
   mounted() {

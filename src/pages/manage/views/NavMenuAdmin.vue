@@ -11,8 +11,7 @@
     <el-submenu index="/admin/user">
       <template #title><i class="el-icon-user-solid"></i>用户管理</template>
       <el-menu-item-group>
-        <el-menu-item index="/admin/user/list">用户列表</el-menu-item>
-        <el-menu-item index="/admin/user/manage">用户权限管理</el-menu-item>
+        <el-menu-item index="/admin/user/list">用户管理列表</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
 

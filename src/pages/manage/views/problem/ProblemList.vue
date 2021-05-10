@@ -101,7 +101,10 @@ export default {
   },
 
   created() {
-    this.currentPage = local_store.getContextDataLocalStorage("currentProblemListPage")
+    var temp = local_store.getContextDataLocalStorage("currentProblemListPage")
+    if( temp == null ){
+      this.currentPage = local_store.getContextDataLocalStorage("currentProblemListPage")
+    }
   },
 
   mounted() {
@@ -123,9 +126,7 @@ export default {
       this.tableData[index].defunct = newStatus == 'Y' ? 'N':'Y';
 
       var data = {pid: this.tableData[index].problemId, newStatus: newStatus}
-      api.switchDefunctStatus(data).then( res => {
-
-
+      api.switchProblemDefunctStatus(data).then( res => {
         this.tableData[index].defunct = newStatus;
       }).catch(err => {
         console.log("切换状态失败");

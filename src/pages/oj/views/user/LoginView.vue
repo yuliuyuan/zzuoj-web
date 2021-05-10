@@ -57,7 +57,7 @@ export default {
           local_store.setContextDataInLocalStorage("Authorization", token)
           this.$router.push("/")
         }).catch(err => {
-          alert(err);
+          alert("登陆失败");
         });
     },
   }

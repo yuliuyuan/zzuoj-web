@@ -71,7 +71,6 @@ function get(url, params) {
                 } else{
                     reject(response.data.msg);
                 }
-                //todo: 更新一下session时间
             }), err => {
                 reject(err.response.data.data);
             }
@@ -119,6 +118,23 @@ export default {
     registry: function (data) {
         return post(user_url+'/user/registry', data);
     },
+
+    showUser: function (params) {
+        return get(user_url + '/admin/user/show',params);
+    },
+
+    getUserCnt: function (){
+        return get(user_url + '/admin/user/cnt');
+    },
+
+    switchUserDefunctStatus: function (data){
+        return post( user_url + '/admin/user/switchDefunct', data)
+    },
+
+    updateUserRole: function (params){
+        return get(user_url + '/root/auth/updateRole',params)
+    },
+
     // logout: function() {
     //     return get('/user/logout');
     // },
@@ -156,7 +172,7 @@ export default {
     },
 
     //切换问题是否禁用状态
-    switchDefunctStatus: function (data){
+    switchProblemDefunctStatus: function (data){
         return post( problem_url + '/admin/problem/switchDefunct', data)
     },
 

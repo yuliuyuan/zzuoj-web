@@ -1,9 +1,5 @@
-import {USER_ROLE} from "@/util/enums";
-
 const state = {
   profile: {}
-  // profile包含：userId; nickName; email; (Integer) role;
-  // role, 当1==role&1为root、2==role&2为admin、否则为user
 }
 const getters = {
   profileGetter: state =>  {

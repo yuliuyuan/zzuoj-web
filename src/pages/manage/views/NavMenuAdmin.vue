@@ -11,7 +11,13 @@
     <el-submenu index="/admin/user">
       <template #title><i class="el-icon-user-solid"></i>用户管理</template>
       <el-menu-item-group>
-        <el-menu-item index="/admin/user/list">用户管理列表</el-menu-item>
+        <el-menu-item index="/admin/user/list">用户列表管理</el-menu-item>
+      </el-menu-item-group>
+      <el-menu-item-group>
+        <el-menu-item index="/admin/user/group/list">用户群组列表管理</el-menu-item>
+      </el-menu-item-group>
+      <el-menu-item-group>
+        <el-menu-item index="/admin/user/groupAdd">用户群组添加</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
 
@@ -27,7 +33,7 @@
       <template #title><i class="el-icon-s-opportunity"></i>竞赛管理</template>
       <el-menu-item-group>
         <el-menu-item index="/admin/contest/list">竞赛列表管理</el-menu-item>
-        <el-menu-item index="/admin/contest/add ">添加竞赛</el-menu-item>
+        <el-menu-item index="/admin/contest/add">添加竞赛</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
 

@@ -123,6 +123,14 @@ export default {
         return get(user_url + '/admin/user/show',params);
     },
 
+    getProfileByUserId: function (params){
+        return get( user_url + '/user/get', params)
+    },
+
+    updateProfile: function (data){
+        return post(user_url + '/user/update', data)
+    },
+
     getUserCnt: function (){
         return get(user_url + '/admin/user/cnt');
     },
@@ -134,6 +142,32 @@ export default {
     updateUserRole: function (params){
         return get(user_url + '/root/auth/updateRole',params)
     },
+
+    // group
+    addGroup: function (data){
+        return post(user_url + '/admin/group/add', data)
+    },
+    deleteGroup: function (params){
+        return get(user_url + '/admin/group/delete', params)
+    },
+
+    showGroups: function (params) {
+        return get(user_url + '/admin/group/show',params);
+    },
+    getGroupCnt: function (){
+        return get(user_url + '/admin/group/cnt');
+    },
+
+    getGroupById: function (params){
+        return get(user_url + '/admin/group/get',params);
+    },
+
+    updateGroupById: function (data){
+        return post( user_url + '/admin/group/update', data);
+    },
+
+
+
 
     // logout: function() {
     //     return get('/user/logout');
@@ -191,9 +225,10 @@ export default {
         return get( contest_url + '/contest/cnt');
     },
 
-    setContestConfig: function (params){
-        return post( contest_url + '/contest/set', params)
+    addContest: function (data) {
+        return post( contest_url + '/admin/contest/add', data)
     },
+
 
     //file相关
     getNewsList: function (params) {

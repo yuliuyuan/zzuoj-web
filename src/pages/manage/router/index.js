@@ -12,6 +12,5 @@ export default [
     // other放到最后，因为有401，404
     ...homeRoutes, ...problemRoutes, ...contest, ...news, ...user,
     ...other,
-
 ]
 

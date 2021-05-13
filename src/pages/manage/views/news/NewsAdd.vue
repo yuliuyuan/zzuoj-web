@@ -66,18 +66,13 @@ export default {
   methods: {
     handleAddNews(data){
       api.addNews(data).then( res => {
-        this.open(res)
+        alert(data);
       }).catch(err => {
         //todo: 做个兜底
         console.log(err)
         this.$alert('add news fail');
       })
     },
-
-    open(data) {
-      alert(data);
-      // console.log(data)
-    }
   }
 }
 </script>

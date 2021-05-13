@@ -153,11 +153,7 @@ export default {
     },
 
     handleCurrentChange(pos) {
-      console.log("+++++" + pos)
-      console.log(this.currentPage)
-      console.log(this.userCnt)
-      console.log(this.pageSize)
-      var data = {pos: pos-1, limit: this.pageSize}
+      var data = {pos: pos, limit: this.pageSize}
       api.showUser(data).then( res => {
         console.log(res)
         this.tableData = res;

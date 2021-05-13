@@ -20,6 +20,10 @@
                {{this.userIdGetter}}<i class="el-icon-arrow-down el-icon--right"> </i>
               </span>
             <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item icon="el-icon-circle-check" @click="routerToProfile()">profile</el-dropdown-item>
+              </el-dropdown-menu>
+
               <el-dropdown-menu v-if="this.isAdminGetter">
                 <el-dropdown-item icon="el-icon-circle-check" @click="swapToManagePage()">Manage</el-dropdown-item>
               </el-dropdown-menu>
@@ -67,6 +71,10 @@ export default {
 
   methods: {
     ...mapActions(['clearProfile']),
+
+    routerToProfile(){
+      this.$router.push("/profile/" + this.userIdGetter)
+    },
 
     swapToManagePage(){
       this.$router.push("/admin/news/show");

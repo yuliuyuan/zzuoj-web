@@ -134,6 +134,15 @@ export default {
     },
 
 
+    created() {
+      var temp = local_store.getContextDataLocalStorage("currentProblemListPage")
+      if( temp != null ){
+        this.currentPage = temp
+      } else {
+        this.currentPage = 1
+      }
+    },
+
     handleProblemCnt(){
       api.getProblemCnt().then( res => {
         this.problemCnt = res;
@@ -145,7 +154,7 @@ export default {
     },
 
     handleCurrentChange(pos) {
-      var data = {pos: pos-1, limit: this.pageSize}
+      var data = {pos: pos, limit: this.pageSize}
       api.showProblem(data).then( res => {
         console.log(res)
         this.tableData = res;

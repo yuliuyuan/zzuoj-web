@@ -26,11 +26,4 @@ export default [
             manage: ContestManage,
         }
     },
-    {
-        path: Global.admin_base_url_prefix+'/contest/view/:contestId',
-        name:'contestView',
-        components: {
-            manage: ContestDetail,
-        }
-    }
 ]

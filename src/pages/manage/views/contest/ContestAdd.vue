@@ -13,7 +13,7 @@
         <el-form-item label="竞赛时间">
           <div class="block">
             <el-date-picker
-                v-model="form.endTime"
+                v-model="form.time"
                 type="datetimerange"
                 :shortcuts="shortcuts"
                 range-separator="至"
@@ -25,7 +25,7 @@
         </el-form-item>
 
         <el-form-item label="竞赛题目">
-          <el-input v-model="form.problems" placeholder="例如:1001,1002,1010"></el-input>
+          <el-input v-model="form.problems" placeholder="例如:1001^1002^1010"></el-input>
         </el-form-item>
 
         <el-form-item label="竞赛描述">
@@ -39,7 +39,7 @@
         <el-form-item label="语言选择">
           <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           <div style="margin: 15px 0;"></div>
-          <el-checkbox-group v-model="form.checkedLanguages" @change="handleCheckedCitiesChange">
+          <el-checkbox-group v-model="form.langmask" @change="handleCheckedCitiesChange">
             <el-checkbox v-for="language in languages" :label="language" :key="language">{{language}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
@@ -54,14 +54,23 @@
           <el-input v-model="form.password"></el-input>
         </el-form-item>
 
-        <el-form-item v-if="form.isPrivate == 1" label="竞赛用户" white-space=: pre-line>
+        <el-form-item v-if="form.isPrivate == 1" label="用户组Id" style="white-space: pre-line; ">
           <el-input
-              type="textarea"
-              :rows="4"
               :placeholder= "usersExample"
-              v-model="form.users"
-              style="white-space: pre-line">
+              v-model="form.groupId"
+              style="white-space: pre-line;width: 410px; ">
           </el-input>
+        </el-form-item>
+
+        <el-form-item>
+          <el-switch
+              v-model='this.form.defunct'
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-value="N"
+              inactive-value="Y"
+              style="padding-left: 550px"
+          > </el-switch>开启比赛(默认绿色开启)
         </el-form-item>
       </el-form>
 
@@ -85,24 +94,26 @@ export default {
   name: 'ContestAdd',
   data() {
     return {
-      usersExample : '例如:(注意不同学号要在不同行，用户必须把学号当作userId注册)\nuser01\nuser02',
+      usersExample : '输入用户组的唯一标识，请现在用户管理模块下添加用户组。',
       form: {
-        title: '竞赛题目测试',
+        title: '竞赛测试',
 
-        beginTime: '',
-        endTime: '',
+        time: '',
 
         problems: null,
         description: '郑州大学第100届新生赛',
 
-        checkedLanguages: ['c', 'c++', 'java'],
+        langmask: ['c', 'c++', 'java'],
 
         password: null,
 
         isPrivate: "0",
 
-        users: "user01\nuser02",
+        groupId: "",
+
+        defunct: "N",
       },
+
       checkAll: false,
 
       languages: languageOptions,
@@ -147,11 +158,22 @@ export default {
 
   methods: {
     handleAddContest(data){
-      console.log(data)
-      api.addContest(data).then( res => {
-      }).catch(err => {
-        alert(err);
+      api.getGroupById({groupId: data.groupId}).then( res=> {
+        if(res == null){
+          alert("group isn't exist")
+          return
+        }
+        api.addContest(data).then( res => {
+          alert(res)
+        }).catch(err => {
+          alert(err);
+        })
+      }).catch( err => {
+        alert("internet error")
+        return
       })
+
+
     },
 
     handleClearContest(){
@@ -160,7 +182,7 @@ export default {
     },
 
     handleCheckAllChange(val) {
-      this.form.checkedLanguages = val ? languageOptions : [];
+      this.form.langmask = val ? languageOptions : [];
       this.isIndeterminate = false;
     },
     handleCheckedCitiesChange(value) {

@@ -229,6 +229,10 @@ export default {
         return post( contest_url + '/admin/contest/add', data)
     },
 
+    switchContestDefunctStatus: function (data){
+        return post( contest_url + '/admin/contest/switchDefunct', data)
+    },
+
 
     //file相关
     getNewsList: function (params) {

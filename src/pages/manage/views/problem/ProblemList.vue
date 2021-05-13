@@ -102,8 +102,10 @@ export default {
 
   created() {
     var temp = local_store.getContextDataLocalStorage("currentProblemListPage")
-    if( temp == null ){
-      this.currentPage = local_store.getContextDataLocalStorage("currentProblemListPage")
+    if( temp != null ){
+      this.currentPage = temp;
+    } else {
+      this.currentPage = 1;
     }
   },
 

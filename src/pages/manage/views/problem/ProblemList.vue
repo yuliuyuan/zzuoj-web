@@ -101,22 +101,26 @@ export default {
   },
 
   created() {
-    var temp = local_store.getContextDataLocalStorage("currentProblemListPage")
-    if( temp != null ){
-      this.currentPage = temp;
-    } else {
-      this.currentPage = 1;
-    }
+    // var temp = local_store.getContextDataLocalStorage("currentProblemListPage")
+    // if( temp != null ){
+    //   this.currentPage = temp;
+    // } else {
+    //   this.currentPage = 1;
+    // }
   },
 
   mounted() {
+    console.log("1111")
     if( this.problemsListGetter.length != 0 && this.problemPageIndexGetter == this.currentPage && this.problemsCntGetter != this.newsCnt ){
       this.problemCnt = this.problemsCntGetter
       this.tableData = this.problemsListGetter
       this.currentPage = this.problemPageIndexGetter
+      console.log("2222")
     } else {
       this.handleProblemCnt();
       this.handleCurrentChange(this.currentPage);
+      console.log(this.currentPage)
+      console.log("3333")
     }
   },
 
@@ -135,15 +139,6 @@ export default {
       })
     },
 
-
-    created() {
-      var temp = local_store.getContextDataLocalStorage("currentProblemListPage")
-      if( temp != null ){
-        this.currentPage = temp
-      } else {
-        this.currentPage = 1
-      }
-    },
 
     handleProblemCnt(){
       api.getProblemCnt().then( res => {
@@ -164,7 +159,7 @@ export default {
         this.setProblemsList(res);
         this.setProblemPageIndex(pos)
 
-        local_store.setContextDataInLocalStorage("currentProblemListPage", this.currentPage)
+        // local_store.setContextDataInLocalStorage("currentProblemListPage", this.currentPage)
       }).catch( err => {
         console.log("handleCurrentChange error!")
         console.log(err)

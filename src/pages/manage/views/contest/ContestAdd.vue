@@ -87,6 +87,7 @@
 
 import api from "@/util/api.js";
 import util from "@/util/util";
+import {mapGetters} from "vuex";
 
 
 const languageOptions = ['c', 'c++', 'java', 'python', 'go'];
@@ -112,6 +113,8 @@ export default {
         groupId: "",
 
         defunct: "N",
+
+        userId: '',
       },
 
       checkAll: false,
@@ -156,24 +159,38 @@ export default {
     }
   },
 
+  computed:{
+    ...mapGetters(["userIdGetter"])
+  },
+
+  mounted() {
+    this.form.userId = this.userIdGetter
+  },
+
   methods: {
     handleAddContest(data){
-      api.getGroupById({groupId: data.groupId}).then( res=> {
-        if(res == null){
-          alert("group isn't exist")
+      if(this.form.groupId != ''){
+        api.getGroupById({groupId: data.groupId}).then( res=> {
+          if(res == null){
+            alert("group isn't exist")
+            return
+          }
+          api.addContest(data).then( res => {
+            alert(res)
+          }).catch(err => {
+            alert(err);
+          })
+        }).catch( err => {
+          alert("internet error")
           return
-        }
+        })
+      } else {
         api.addContest(data).then( res => {
           alert(res)
         }).catch(err => {
           alert(err);
         })
-      }).catch( err => {
-        alert("internet error")
-        return
-      })
-
-
+      }
     },
 
     handleClearContest(){

@@ -76,12 +76,12 @@ export default {
   },
 
   created() {
-    var temp = local_store.getContextDataLocalStorage("currentGroupListPage")
-    if( temp == null ){
-      this.currentPage = 1
-    } else {
-      this.currentPage =  temp
-    }
+    // var temp = local_store.getContextDataLocalStorage("currentGroupListPage")
+    // if( temp == null ){
+    //   this.currentPage = 1
+    // } else {
+    //   this.currentPage =  temp
+    // }
   },
 
   mounted() {
@@ -102,7 +102,7 @@ export default {
       var data = {pos: pos, limit: this.pageSize}
       api.showGroups(data).then( res => {
         this.tableData = res;
-        local_store.setContextDataInLocalStorage("currentGroupListPage", this.currentPage)
+        // local_store.setContextDataInLocalStorage("currentGroupListPage", this.currentPage)
       }).catch( err => {
         alert("get group by page error")
       })

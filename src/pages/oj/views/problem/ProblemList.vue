@@ -95,7 +95,7 @@ export default {
   },
 
   created() {
-    this.currentPage = local_store.getContextDataLocalStorage("currentProblemListPage")
+    // this.currentPage = local_store.getContextDataLocalStorage("currentProblemListPage")
   },
 
   mounted() {
@@ -146,7 +146,7 @@ export default {
         this.setProblemsList(res);
         this.setProblemPageIndex(pos)
 
-        local_store.setContextDataInLocalStorage("currentProblemListPage", this.currentPage)
+        // local_store.setContextDataInLocalStorage("currentProblemListPage", this.currentPage)
       }).catch( err => {
         console.log("handleCurrentChange error!")
         console.log(err)

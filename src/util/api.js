@@ -235,6 +235,9 @@ export default {
         return post(contest_url + '/admin/contest/update', data)
     },
 
+    deleteContestById: function (params){
+        return get( contest_url + '/admin/contest/delete', params)
+    },
     //file相关
     getNewsList: function (params) {
         return get( file_url + '/news/show', params);

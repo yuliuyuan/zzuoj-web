@@ -108,10 +108,10 @@ export default {
   },
 
   created() {
-    var temp = local_store.getContextDataLocalStorage("currentUserListPage")
-    if( temp == null ){
-      this.currentPage = local_store.getContextDataLocalStorage("currentUserListPage")
-    }
+    // var temp = local_store.getContextDataLocalStorage("currentUserListPage")
+    // if( temp == null ){
+    //   this.currentPage = local_store.getContextDataLocalStorage("currentUserListPage")
+    // }
   },
 
   mounted() {
@@ -161,7 +161,7 @@ export default {
         this.setUsersList(res);
         this.setUserPageIndex(pos)
 
-        local_store.setContextDataInLocalStorage("currentUserListPage", this.currentPage)
+        // local_store.setContextDataInLocalStorage("currentUserListPage", this.currentPage)
       }).catch( err => {
         alert("get user by page error")
       })

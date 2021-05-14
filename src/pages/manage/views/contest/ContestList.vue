@@ -110,12 +110,12 @@ export default {
   },
 
   created() {
-    var temp = local_store.getContextDataLocalStorage("currentContestListPage")
-    if( temp != null ){
-      this.currentPage = temp;
-    } else {
-      this.currentPage = 1;
-    }
+    // var temp = local_store.getContextDataLocalStorage("currentContestListPage")
+    // if( temp != null ){
+    //   this.currentPage = temp;
+    // } else {
+    //   this.currentPage = 1;
+    // }
   },
 
   mounted() {
@@ -139,12 +139,12 @@ export default {
 
 
     created() {
-      var temp = local_store.getContextDataLocalStorage("currentContestListPage")
-      if( temp != null ){
-        this.currentPage = temp
-      } else {
-        this.currentPage = 1
-      }
+      // var temp = local_store.getContextDataLocalStorage("currentContestListPage")
+      // if( temp != null ){
+      //   this.currentPage = temp
+      // } else {
+      //   this.currentPage = 1
+      // }
     },
 
     handleContestCnt(){
@@ -159,7 +159,7 @@ export default {
       var params = {pos: pos, limit: this.pageSize}
       api.getContestList(params).then( res => {
         this.tableData = res;
-        local_store.setContextDataInLocalStorage("currentContestListPage", this.currentPage)
+        // local_store.setContextDataInLocalStorage("currentContestListPage", this.currentPage)
       }).catch( err => {
         alert("get contest list error!")
       })

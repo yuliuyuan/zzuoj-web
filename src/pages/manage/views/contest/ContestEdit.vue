@@ -87,6 +87,7 @@
 
 import api from "@/util/api.js";
 import util from "@/util/util";
+import {mapGetters} from "vuex";
 
 
 const languageOptions = ['c', 'c++', 'java', 'python', 'go'];
@@ -115,6 +116,8 @@ export default {
         groupId: "",
 
         defunct: "N",
+
+        userId: "",
       },
 
       checkAll: false,
@@ -160,10 +163,15 @@ export default {
   },
 
   mounted() {
+    this.form.userId = this.userIdGetter
+
     this.handleGetContestById( this.$route.params.id )
     this.form.contestId = this.$route.params.id
   },
 
+  computed:{
+    ...mapGetters(["userIdGetter"])
+  },
   methods: {
     handleGetContestById(contestId){
       api.getContestById({contestId: contestId}).then( res => {
@@ -180,8 +188,8 @@ export default {
             this.form.groupId = res.groupId
 
             this.form.defunct = res.defunct
-        console.log(this.form)
       }).catch( err => {
+        alert(err)
         alert("get contest by id error")
       })
     },

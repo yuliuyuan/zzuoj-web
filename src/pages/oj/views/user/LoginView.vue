@@ -54,7 +54,7 @@ export default {
           const decode =  jwtDecode(token);
           var profile = JSON.parse(decode.sub);
           this.setProfile(profile);
-          local_store.setContextDataInLocalStorage("Authorization", token)
+          // local_store.setContextDataInLocalStorage("Authorization", token)
           this.$router.push("/")
         }).catch(err => {
           alert("登陆失败");

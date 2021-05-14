@@ -44,7 +44,6 @@ export default {
       api.addGroup(data).then( res => {
         alert(res);
       }).catch(err => {
-        //todo: 做个兜底
         alert(err);
       })
     },

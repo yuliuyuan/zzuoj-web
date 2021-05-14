@@ -183,8 +183,6 @@ export default {
     // },
 
     //problem 相关
-
-
     showProblem: function (params) {
         return get(problem_url + '/problem/show',params);
     },
@@ -233,6 +231,9 @@ export default {
         return post( contest_url + '/admin/contest/switchDefunct', data)
     },
 
+    updateContestById: function (data){
+        return post(contest_url + '/admin/contest/update', data)
+    },
 
     //file相关
     getNewsList: function (params) {

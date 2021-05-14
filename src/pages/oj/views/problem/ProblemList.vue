@@ -153,24 +153,7 @@ export default {
       })
     },
 
-    handleEdit(problemId) {
-      this.$router.push("/admin/news/show/edit/" + problemId)
-    },
-
-    handleDelete(problemId) {
-      var params = {problemId : problemId}
-      api.deleteProblemById(params).then( res => {
-        // todo: 修改返回数据的方式
-        alert(res)
-        this.handleCurrentChange(this.currentPage)
-      }).catch( err => {
-        alert("delete problems fail!")
-      })
-    },
-
     routerToProblem(problemId) {
-      console.log("begin route")
-      console.log(problemId)
       this.$router.push('/problem/'+problemId)
     },
   },
@@ -194,15 +177,6 @@ export default {
   top: 10px;
   left: 0px;
   right: 0px;
-}
-
-.problemTitleName {
-  text-align: left;
-  position: relative;
-
-  top: 10px;
-  left: 20px;
-  font-size:1.875em;
 }
 
 .problemForm {

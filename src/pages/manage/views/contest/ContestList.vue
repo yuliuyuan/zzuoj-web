@@ -166,7 +166,7 @@ export default {
     },
 
     handleEdit(contestId) {
-      this.$router.push("/admin/news/show/edit/" + contestId)
+      this.$router.push("/admin/contest/list/edit/" + contestId)
     },
 
     handleDelete(contestId) {

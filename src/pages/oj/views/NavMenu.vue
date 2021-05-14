@@ -6,7 +6,7 @@
     </el-menu-item>
     <el-menu-item index="/home" class="menu-item" >Home</el-menu-item>
     <el-menu-item index="/problem" class="menu-item">Problem</el-menu-item>
-    <el-menu-item index="3" class="menu-item">Contest</el-menu-item>
+    <el-menu-item index="/contest" class="menu-item">Contest</el-menu-item>
     <el-menu-item index="4" class="menu-item">Experiment</el-menu-item>
     <el-menu-item index="5" class="menu-item">Submission</el-menu-item>
     <el-menu-item index="/about" class="menu-item">About</el-menu-item>

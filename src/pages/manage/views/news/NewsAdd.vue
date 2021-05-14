@@ -68,9 +68,7 @@ export default {
       api.addNews(data).then( res => {
         alert(data);
       }).catch(err => {
-        //todo: 做个兜底
-        console.log(err)
-        this.$alert('add news fail');
+        alert("add news fail")
       })
     },
   }

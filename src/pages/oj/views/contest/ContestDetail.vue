@@ -6,50 +6,6 @@
         {{this.contest.title}}
       </div>
       <el-divider></el-divider>
-
-      <div class="contestContent">
-        <el-form ref="this.contest" :model="this.contest" label-position="top">
-          <!--        text-align不能放到blueTitle里-->
-          <el-form-item label="Description" class="blueTitle" style="text-align: left;">
-            <div class="contestContent">{{this.contest.description}}</div>
-          </el-form-item>
-
-          <el-form-item label="Input" class="blueTitle" style="text-align: left;">
-            <div class="contestContent">{{this.contest.input}}</div>
-          </el-form-item>
-
-          <el-form-item label="Output" class="blueTitle" style="text-align: left;">
-            <div class="contestContent">{{this.contest.output}}</div>
-          </el-form-item>
-
-          <el-form-item label="Sample Input" class="blueTitle" style="text-align: left;">
-            <div class="contestContent">{{this.contest.sampleInput}}</div>
-          </el-form-item>
-
-          <el-form-item label="Sample Output" class="blueTitle" style="text-align: left;">
-            <div class="contestContent">{{this.contest.sampleOutput}}</div>
-          </el-form-item>
-
-          <el-form-item label="Sourcet" class="blueTitle" style="text-align: left;">
-            <div class="contestContent">{{this.contest.source}}</div>
-          </el-form-item>
-        </el-form>
-      </div>
-      <el-divider></el-divider>
-
-      <div class="contestUpload">
-        <el-form ref="this.contest" :model="this.contest" label-position="top">
-          <el-form-item label="提交" class="blueTitle" style="text-align: left;">
-            <el-input
-                type="textarea"
-                :autosize="{ minRows: 10, maxRows: 1000}"
-                placeholder=""
-                v-model="textarea"
-                style="color: #2c3e50">
-            </el-input>
-          </el-form-item>
-        </el-form>
-      </div>
     </div>
     <!--    contest右侧信息-->
     <div class="contestInfo">

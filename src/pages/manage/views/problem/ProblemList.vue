@@ -101,17 +101,26 @@ export default {
   },
 
   created() {
-    this.currentPage = local_store.getContextDataLocalStorage("currentProblemListPage")
+    // var temp = local_store.getContextDataLocalStorage("currentProblemListPage")
+    // if( temp != null ){
+    //   this.currentPage = temp;
+    // } else {
+    //   this.currentPage = 1;
+    // }
   },
 
   mounted() {
+    console.log("1111")
     if( this.problemsListGetter.length != 0 && this.problemPageIndexGetter == this.currentPage && this.problemsCntGetter != this.newsCnt ){
       this.problemCnt = this.problemsCntGetter
       this.tableData = this.problemsListGetter
       this.currentPage = this.problemPageIndexGetter
+      console.log("2222")
     } else {
       this.handleProblemCnt();
       this.handleCurrentChange(this.currentPage);
+      console.log(this.currentPage)
+      console.log("3333")
     }
   },
 
@@ -123,9 +132,7 @@ export default {
       this.tableData[index].defunct = newStatus == 'Y' ? 'N':'Y';
 
       var data = {pid: this.tableData[index].problemId, newStatus: newStatus}
-      api.switchDefunctStatus(data).then( res => {
-
-
+      api.switchProblemDefunctStatus(data).then( res => {
         this.tableData[index].defunct = newStatus;
       }).catch(err => {
         console.log("切换状态失败");
@@ -144,7 +151,7 @@ export default {
     },
 
     handleCurrentChange(pos) {
-      var data = {pos: pos-1, limit: this.pageSize}
+      var data = {pos: pos, limit: this.pageSize}
       api.showProblem(data).then( res => {
         console.log(res)
         this.tableData = res;
@@ -152,7 +159,7 @@ export default {
         this.setProblemsList(res);
         this.setProblemPageIndex(pos)
 
-        local_store.setContextDataInLocalStorage("currentProblemListPage", this.currentPage)
+        // local_store.setContextDataInLocalStorage("currentProblemListPage", this.currentPage)
       }).catch( err => {
         console.log("handleCurrentChange error!")
         console.log(err)

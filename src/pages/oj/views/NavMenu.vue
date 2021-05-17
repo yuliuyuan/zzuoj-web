@@ -6,7 +6,7 @@
     </el-menu-item>
     <el-menu-item index="/home" class="menu-item" >Home</el-menu-item>
     <el-menu-item index="/problem" class="menu-item">Problem</el-menu-item>
-    <el-menu-item index="3" class="menu-item">Contest</el-menu-item>
+    <el-menu-item index="/contest" class="menu-item">Contest</el-menu-item>
     <el-menu-item index="4" class="menu-item">Experiment</el-menu-item>
     <el-menu-item index="5" class="menu-item">Submission</el-menu-item>
     <el-menu-item index="/about" class="menu-item">About</el-menu-item>
@@ -20,6 +20,10 @@
                {{this.userIdGetter}}<i class="el-icon-arrow-down el-icon--right"> </i>
               </span>
             <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item icon="el-icon-circle-check" @click="routerToProfile()">profile</el-dropdown-item>
+              </el-dropdown-menu>
+
               <el-dropdown-menu v-if="this.isAdminGetter">
                 <el-dropdown-item icon="el-icon-circle-check" @click="swapToManagePage()">Manage</el-dropdown-item>
               </el-dropdown-menu>
@@ -67,6 +71,10 @@ export default {
 
   methods: {
     ...mapActions(['clearProfile']),
+
+    routerToProfile(){
+      this.$router.push("/profile/" + this.userIdGetter)
+    },
 
     swapToManagePage(){
       this.$router.push("/admin/news/show");

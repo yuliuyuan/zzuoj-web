@@ -96,7 +96,7 @@ export default {
 
   created() {
     // this.currentPage = this.getContextData("currentArticleListPage")
-    this.currentPage = local_store.getContextDataLocalStorage("currentArticleListPage")
+    // this.currentPage = local_store.getContextDataLocalStorage("currentArticleListPage")
   },
 
   computed: {
@@ -138,7 +138,7 @@ export default {
         this.setNewsList(res);
         this.setNewsPageIndex(pos)
 
-        local_store.setContextDataInLocalStorage("currentArticleListPage", this.currentPage)
+        // local_store.setContextDataInLocalStorage("currentArticleListPage", this.currentPage)
         this.routerToListPage();
       }).catch( err => {
         console.log("handleCurrentChange error:" + err)

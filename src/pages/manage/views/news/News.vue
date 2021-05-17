@@ -4,7 +4,7 @@
       <h1>{{this.newsShow.title}}</h1>
     </div>
     <el-divider></el-divider>
-    <div class="articleContent">
+    <div class="articleContent" style="white-space: pre-line">
       {{this.newsShow.content}}
     </div>
   </div>

@@ -4,12 +4,13 @@ import userRoutes from '@oj/router/user.js'
 import homeRoutes from '@oj/router/home.js'
 import aboutRoutes from '@oj/router/about.js'
 import problemRoutes from '@oj/router/problem.js'
+import contestRoutes from '@oj/router/contest.js'
 import other from '@oj/router/other.js'
 
 
 export default [
     // other放到最后，因为有404、401
-    ...userRoutes, ...homeRoutes, ...aboutRoutes,... problemRoutes,
+    ...userRoutes, ...homeRoutes, ...aboutRoutes, ...problemRoutes, ...contestRoutes,
     ...other
 
 ]

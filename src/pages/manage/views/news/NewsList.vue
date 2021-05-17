@@ -77,8 +77,12 @@ export default {
   },
 
   created() {
-    this.currentPage = local_store.getContextDataLocalStorage("currentArticleListPageAdmin")
-
+    // var temp = local_store.getContextDataLocalStorage("currentArticleListPageAdmin")
+    // if( temp != null ){
+    //   this.currentPage = temp
+    // } else {
+    //   this.currentPage = 1
+    // }
   },
 
   mounted() {
@@ -116,7 +120,7 @@ export default {
         this.setNewsList(res);
         this.setNewsPageIndex(pos)
         //
-        local_store.setContextDataInLocalStorage("currentArticleListPageAdmin", this.currentPage);
+        // local_store.setContextDataInLocalStorage("currentArticleListPageAdmin", this.currentPage);
         // this.setContextData("currentArticleListPage", this.currentPage)
         this.routerToNewsList();
       }).catch( err => {

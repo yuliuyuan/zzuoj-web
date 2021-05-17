@@ -71,7 +71,6 @@ function get(url, params) {
                 } else{
                     reject(response.data.msg);
                 }
-                //todo: 更新一下session时间
             }), err => {
                 reject(err.response.data.data);
             }
@@ -119,6 +118,57 @@ export default {
     registry: function (data) {
         return post(user_url+'/user/registry', data);
     },
+
+    showUser: function (params) {
+        return get(user_url + '/admin/user/show',params);
+    },
+
+    getProfileByUserId: function (params){
+        return get( user_url + '/user/get', params)
+    },
+
+    updateProfile: function (data){
+        return post(user_url + '/user/update', data)
+    },
+
+    getUserCnt: function (){
+        return get(user_url + '/admin/user/cnt');
+    },
+
+    switchUserDefunctStatus: function (data){
+        return post( user_url + '/admin/user/switchDefunct', data)
+    },
+
+    updateUserRole: function (params){
+        return get(user_url + '/root/auth/updateRole',params)
+    },
+
+    // group
+    addGroup: function (data){
+        return post(user_url + '/admin/group/add', data)
+    },
+    deleteGroup: function (params){
+        return get(user_url + '/admin/group/delete', params)
+    },
+
+    showGroups: function (params) {
+        return get(user_url + '/admin/group/show',params);
+    },
+    getGroupCnt: function (){
+        return get(user_url + '/admin/group/cnt');
+    },
+
+    getGroupById: function (params){
+        return get(user_url + '/admin/group/get',params);
+    },
+
+    updateGroupById: function (data){
+        return post( user_url + '/admin/group/update', data);
+    },
+
+
+
+
     // logout: function() {
     //     return get('/user/logout');
     // },
@@ -133,8 +183,6 @@ export default {
     // },
 
     //problem 相关
-
-
     showProblem: function (params) {
         return get(problem_url + '/problem/show',params);
     },
@@ -156,7 +204,7 @@ export default {
     },
 
     //切换问题是否禁用状态
-    switchDefunctStatus: function (data){
+    switchProblemDefunctStatus: function (data){
         return post( problem_url + '/admin/problem/switchDefunct', data)
     },
 
@@ -175,10 +223,21 @@ export default {
         return get( contest_url + '/contest/cnt');
     },
 
-    setContestConfig: function (params){
-        return post( contest_url + '/contest/set', params)
+    addContest: function (data) {
+        return post( contest_url + '/admin/contest/add', data)
     },
 
+    switchContestDefunctStatus: function (data){
+        return post( contest_url + '/admin/contest/switchDefunct', data)
+    },
+
+    updateContestById: function (data){
+        return post(contest_url + '/admin/contest/update', data)
+    },
+
+    deleteContestById: function (params){
+        return get( contest_url + '/admin/contest/delete', params)
+    },
     //file相关
     getNewsList: function (params) {
         return get( file_url + '/news/show', params);

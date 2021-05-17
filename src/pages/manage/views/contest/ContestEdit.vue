@@ -1,7 +1,7 @@
 <template>
   <div class="ContestMain">
     <div class="ContestTitle">
-      <p>添加竞赛</p>
+      <p>修改竞赛</p>
     </div>
     <el-divider></el-divider>
     <div class="Content">
@@ -45,8 +45,8 @@
         </el-form-item>
 
         <el-form-item label="是否私有">
-          <el-radio v-model="form.isPrivate" label="0">公开</el-radio>
-          <el-radio v-model="form.isPrivate" label="1">私有</el-radio>
+          <el-radio v-model="form.isPrivate" :label="0">公开</el-radio>
+          <el-radio v-model="form.isPrivate" :label="1">私有</el-radio>
           (如果私有只能通过手动导入选手学号来添加用户)
         </el-form-item>
 
@@ -76,7 +76,7 @@
 
       <div >
         <el-button @click="handleClearContest()">清空</el-button>
-        <el-button type="primary" @click="handleAddContest(this.form)">提交</el-button>
+        <el-button type="primary" @click="handleUpdateContest(this.form)">提交修改</el-button>
       </div>
     </div>
   </div>
@@ -93,28 +93,31 @@ import {mapGetters} from "vuex";
 const languageOptions = ['c', 'c++', 'java', 'python', 'go'];
 export default {
   name: 'ContestAdd',
+  props: ['id'],
   data() {
     return {
       usersExample : '输入用户组的唯一标识，请现在用户管理模块下添加用户组。',
       form: {
+        contestId: '',
+
         title: '竞赛测试',
 
         time: '',
 
         problems: null,
-        description: '郑州大学第100届新生赛',
+        description: '',
 
         langmask: ['c', 'c++', 'java'],
 
         password: null,
 
-        isPrivate: "0",
+        isPrivate: '',
 
         groupId: "",
 
         defunct: "N",
 
-        userId: '',
+        userId: "",
       },
 
       checkAll: false,
@@ -159,38 +162,46 @@ export default {
     }
   },
 
+  mounted() {
+    this.form.userId = this.userIdGetter
+
+    this.handleGetContestById( this.$route.params.id )
+    this.form.contestId = this.$route.params.id
+  },
+
   computed:{
     ...mapGetters(["userIdGetter"])
   },
-
-  mounted() {
-    this.form.userId = this.userIdGetter
-  },
-
   methods: {
-    handleAddContest(data){
-      if(this.form.groupId != ''){
-        api.getGroupById({groupId: data.groupId}).then( res=> {
-          if(res == null){
-            alert("group isn't exist")
-            return
-          }
-          api.addContest(data).then( res => {
-            alert(res)
-          }).catch(err => {
-            alert(err);
-          })
-        }).catch( err => {
-          alert("internet error")
-          return
-        })
-      } else {
-        api.addContest(data).then( res => {
-          alert(res)
-        }).catch(err => {
-          alert(err);
-        })
-      }
+    handleGetContestById(contestId){
+      api.getContestById({contestId: contestId}).then( res => {
+            this.form.title = res.title
+            this.form.time = res.time
+            this.form.problems = res.problems
+            this.form.description = res.description
+            this.form.langmask = res.langmask
+
+            this.form.password = res.password,
+
+            this.form.isPrivate = res.isPrivate
+
+            this.form.groupId = res.groupId
+
+            this.form.defunct = res.defunct
+      }).catch( err => {
+        alert(err)
+        alert("get contest by id error")
+      })
+    },
+
+    handleUpdateContest(data){
+      api.updateContestById(data).then( res => {
+          alert("update contest success")
+      }).catch( err => {
+          alert("update contest error")
+      })
+
+
     },
 
     handleClearContest(){

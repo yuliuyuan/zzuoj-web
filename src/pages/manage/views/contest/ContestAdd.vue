@@ -44,6 +44,10 @@
           </el-checkbox-group>
         </el-form-item>
 
+        <el-form-item label="赛制">
+          <el-radio v-model="form.contestMode" v-for="i in ['OI','IOI','ACM','CF']" :label="i" :key="i">{{i}}</el-radio>
+        </el-form-item>
+
         <el-form-item label="是否私有">
           <el-radio v-model="form.isPrivate" label="0">公开</el-radio>
           <el-radio v-model="form.isPrivate" label="1">私有</el-radio>
@@ -113,6 +117,8 @@ export default {
         groupId: "",
 
         defunct: "N",
+
+        contestMode: 'ACM',
 
         userId: '',
       },

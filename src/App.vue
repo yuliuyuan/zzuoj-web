@@ -79,7 +79,7 @@ export default {
             this.isBackedManage = true;
             // this.$router.push("/admin/news/show")
           } else {
-            this.$router.push("/401");
+            this.$router.push("/login");
           }
         } else {
           this.isBackedManage = true;

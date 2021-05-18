@@ -5,7 +5,7 @@
     </div>
     <el-divider></el-divider>
 
-    <div class="articleContent">
+    <div class="articleContent" style="white-space: pre-line">
       {{this.newsShow.content}}
     </div>
   </div>
@@ -34,10 +34,8 @@ export default {
       var params = {id : newId}
       api.getNewById(params).then( res => {
         this.newsShow = res;
-        console.log("!!!!")
-        console.log(this.newsShow)
       }).catch( err => {
-        console.log("get new by id err:" + err);
+        alert("get news by id error")
       })
     }
   },
@@ -53,11 +51,6 @@ export default {
   position: relative;
   border: 1px solid rgb(185, 185, 185);
   background-color: #fff;
-
-  /*width: 500px;*/
-  /*top: 100px;*/
-  /*left: 200px;*/
-  /*right: 200px;*/
 }
 
 .articleTitle {

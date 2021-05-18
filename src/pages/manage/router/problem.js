@@ -1,6 +1,7 @@
 import ProblemList from "@manage/views/problem/ProblemList";
 import ProblemAdd from "@manage/views/problem/ProblemAdd";
 import ProblemEdit from "@manage/views/problem/ProblemEdit";
+import TestData from '@manage/views/problem/TestData'
 import Global from '@/Global.js'
 
 export default [
@@ -25,6 +26,14 @@ export default [
         components: {
             manage: ProblemAdd,
         }
+    },
+    {
+        path: Global.admin_base_url_prefix+'/problem/data/:id',
+        name:'testData',
+        components: {
+            manage: TestData,
+        },
+        props: true
     },
 
 ]

@@ -4,7 +4,7 @@
       <p>Welcome to zzuoj～</p>
     </div>
     <div class="loginFrom">
-      <el-form ref="form" :model="form" :rules="loginRules" label-width="50px" >
+      <el-form ref="form" :model="form" :rules="loginRules" label-width="70px" >
         <el-form-item label="username:" >
           <el-input style="width: 300px;" v-model="form.username"></el-input>
         </el-form-item>
@@ -54,7 +54,7 @@ export default {
           const decode =  jwtDecode(token);
           var profile = JSON.parse(decode.sub);
           this.setProfile(profile);
-          // local_store.setContextDataInLocalStorage("Authorization", token)
+          local_store.setContextDataInLocalStorage("Authorization", token)
           this.$router.push("/")
         }).catch(err => {
           alert("登陆失败");
@@ -83,6 +83,8 @@ export default {
 .loginTitle {
   position: relative;
   margin-top: 20px;
+
+  left: 20px;
 }
 
 .loginFrom {
@@ -90,6 +92,6 @@ export default {
   margin-top: 20px;
   margin-right: 30px;
 
-  left: 20px;
+  left: 30px;
 }
 </style>

@@ -96,6 +96,8 @@ export default {
 .registryTitle {
   position: relative;
   margin-top: 20px;
+
+  left: 20px;
 }
 
 .registryFrom {

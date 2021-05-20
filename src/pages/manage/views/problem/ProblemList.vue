@@ -1,5 +1,4 @@
 <template>
-
   <el-table
       :data="tableData"
       stripe
@@ -63,6 +62,10 @@
             size="mini"
             type="danger"
             @click="handleDelete(scope.row.problemId)">Delete</el-button>
+        <el-button
+            size="mini"
+            type="primary"
+            @click="routerToTestData(scope.row.problemId)">TestData</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -84,7 +87,6 @@
 <script>
 import api from "@/util/api";
 import {mapGetters, mapActions} from 'vuex'
-import local_store from '@/util/local_store.vue'
 
 export default {
   data() {
@@ -167,18 +169,23 @@ export default {
     },
 
     handleEdit(problemId) {
-      this.$router.push("/admin/news/show/edit/" + problemId)
+      this.$router.push("/admin/problem/show/edit/" + problemId)
     },
 
+    //todo：测试点也要删除
     handleDelete(problemId) {
       var params = {problemId : problemId}
       api.deleteProblemById(params).then( res => {
-        // todo: 修改返回数据的方式
         alert(res)
         this.handleCurrentChange(this.currentPage)
       }).catch( err => {
         alert("delete problems fail!")
       })
+    },
+
+
+    routerToTestData(problemId) {
+      this.$router.push("/admin/problem/data/" + problemId)
     },
   },
 }

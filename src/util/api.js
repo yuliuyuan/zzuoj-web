@@ -17,21 +17,29 @@ axios.defaults.withCredentials = true;
 
 
 //response.data是被后端封装的一个对象{code:***,msg:***,data:***}
-function post(url, data){
+function post(url, data, headers){
     data = data || {};
+    headers = headers || {}
     // resolve，reject，分别表示异步操作执行成功后的回调函数和异步操作执行失败后的回调函数。
     return new Promise((resolve, reject) => {
-        axios.post(url,data)
-            .then(response => {
-                //服务端common包里定义所有正确的response.data.code都是200
-                if(response.data.code === 1) {
-                    resolve(response.data.data);
-                } else {
-                    reject(response.data.msg);
-                }
-            }), err => {
-                reject(err.response.data);
+        axios({
+            method: 'post',
+            url: url,
+            data: data,
+            headers :  headers,
+        }).then(response => {
+            //服务端common包里定义所有正确的response.data.code都是200
+            if(response.data.code === 1) {
+                console.log("111111")
+                resolve(response.data.data);
+            } else {
+                console.log("222222")
+                reject(response.data.msg);
             }
+        }), err => {
+            console.log("33333")
+            reject(err.response.data);
+        }
     })
 }
 
@@ -61,17 +69,24 @@ function post(url, data){
 // }
 
 //异步
-function get(url, params) {
+function get(url, params, headers) {
     params = params || {};
     return new Promise((resolve, reject) => {
-        axios.get(url,{ params })
-            .then(response => {
+        axios({
+            method: 'get',
+            url: url,
+            params: params,
+            headers :  headers,
+        }).then(response => {
                 if(response.data.code === 1 ){
+                    console.log("111111")
                     resolve(response.data.data);
                 } else{
+                    console.log("222222")
                     reject(response.data.msg);
                 }
             }), err => {
+                console.log("333333")
                 reject(err.response.data.data);
             }
     })
@@ -206,6 +221,31 @@ export default {
     //切换问题是否禁用状态
     switchProblemDefunctStatus: function (data){
         return post( problem_url + '/admin/problem/switchDefunct', data)
+    },
+
+    // ---------------------- 测试点相关 ----------------------
+    // checkpoint单点上传
+    uploadSingleCheckpoint: function (data) {
+        return post(file_url + '/admin/file/upload', data);
+    },
+    // checkpoint批量上传
+    uploadCheckpointFiles: function (data, headers) {
+        return post(problem_url + '/admin/checkpoint/uploadCheckPoints', data, headers);
+    },
+    //批量删除
+    deleteCheckpointFiles: function (data) {
+        return post(file_url + '/admin/file/delete', data);
+    },
+    deleteCheckPointsByCid: function (params){
+        return get( problem_url + '/admin/checkpoint/deleteCheckPointsByCid', params)
+    },
+    // 获取题目的checkpoint列表
+    getCheckpointList: function (pId) {
+        return get(problem_url + '/admin/checkpoint/getCheckPointByPid', { pId });
+    },
+    // 获取checkpoint详情
+    getCheckpointPreview: function (checkpointId) {
+        return get(file_url + '/admin/file/query', { checkpointId });
     },
 
     //experiment相关

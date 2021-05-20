@@ -30,11 +30,14 @@ function post(url, data, headers){
         }).then(response => {
             //服务端common包里定义所有正确的response.data.code都是200
             if(response.data.code === 1) {
+                console.log("111111")
                 resolve(response.data.data);
             } else {
+                console.log("222222")
                 reject(response.data.msg);
             }
         }), err => {
+            console.log("33333")
             reject(err.response.data);
         }
     })
@@ -76,11 +79,14 @@ function get(url, params, headers) {
             headers :  headers,
         }).then(response => {
                 if(response.data.code === 1 ){
+                    console.log("111111")
                     resolve(response.data.data);
                 } else{
+                    console.log("222222")
                     reject(response.data.msg);
                 }
             }), err => {
+                console.log("333333")
                 reject(err.response.data.data);
             }
     })
@@ -224,15 +230,18 @@ export default {
     },
     // checkpoint批量上传
     uploadCheckpointFiles: function (data, headers) {
-        return post(file_url + '/admin/file/uploadFiles', data, headers);
+        return post(problem_url + '/admin/checkpoint/uploadCheckPoints', data, headers);
     },
     //批量删除
     deleteCheckpointFiles: function (data) {
         return post(file_url + '/admin/file/delete', data);
     },
+    deleteCheckPointsByCid: function (params){
+        return get( problem_url + '/admin/checkpoint/deleteCheckPointsByCid', params)
+    },
     // 获取题目的checkpoint列表
-    getCheckpointList: function (problemId) {
-        return get(file_url + '/admin/file/list', { problemId });
+    getCheckpointList: function (pId) {
+        return get(problem_url + '/admin/checkpoint/getCheckPointByPid', { pId });
     },
     // 获取checkpoint详情
     getCheckpointPreview: function (checkpointId) {

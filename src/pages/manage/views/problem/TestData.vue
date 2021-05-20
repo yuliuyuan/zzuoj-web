@@ -1,43 +1,46 @@
 <template>
   <el-table
-      :data="tableData"
+      :data="checkPointList"
       border
       height="600px"
-      style="width: 100%">
+      style="width: 100%"
+      :row-style="{height: '30px'}"
+      :span-method="objectSpanMethod">
     <el-table-column
         fixed
-        prop="date"
+        prop="name"
         label="名称"
         width="200px">
     </el-table-column>
     <el-table-column
-        prop="name"
-        label="上传者"
+        prop="userId"
+        label="创建者"
         width="120">
     </el-table-column>
     <el-table-column
-        prop="province"
-        label="大小"
+        prop="size"
+        label="大小(B)"
         width="100">
     </el-table-column>
     <el-table-column
-        prop="city"
+        prop="createTime"
         label="时间"
-        width="150">
+        width="200">
     </el-table-column>
+
     <el-table-column
-        prop="address"
         label="类型"
         width="100px">
+      <template #default="scope">
+        <span>{{ (scope.row.name).endsWith(".in") ? ".in":".out"  }} </span>
+      </template>
     </el-table-column>
 
     <el-table-column
         label="操作"
         width="300px">
       <template #default="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
-        <el-button @click="handleClick(scope.row)" type="text" size="small">重命名 </el-button>
-        <el-button type="text" size="small">编辑</el-button>
+        <el-button @click="handleDelete(scope.row.checkpointId)" type="text" size="small">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -66,6 +69,7 @@ export default {
   props: ['id'],
   data() {
     return {
+      checkPointList: [],
       fileList: [],
       tableData: [],
       problemId: '',
@@ -74,9 +78,39 @@ export default {
 
   mounted() {
     this.problemId = this.$route.params.id
+    this.handleGetCheckPointByPid()
   },
 
   methods: {
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 5 || columnIndex === 3) {
+        if (rowIndex % 2 === 0) {
+          return {
+            rowspan: 2,
+            colspan: 1
+          };
+        } else {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        }
+      }
+      if (columnIndex === 5) {
+        if (rowIndex % 2 === 0) {
+          return {
+            rowspan: 2,
+            colspan: 1
+          };
+        } else {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        }
+      }
+    },
+
     submitUpload() {
       if(this.fileList == null || this.fileList.length == 0){
         alert("请添加上传文件")
@@ -89,8 +123,11 @@ export default {
       const formData = new FormData();
       for(var i=0; i<this.fileList.length; i++){
         var file = this.fileList[i]
-        formData.append('files', file.raw, this.problemId + "/" +file.name);
+        formData.append('files', file.raw, file.name);
       }
+
+      var obj = { pId: this.problemId}
+      formData.append("obj",JSON.stringify(obj));
       api.uploadCheckpointFiles(formData, headers  ).then( res => {
         this.fileList = []
         alert("upload files success")
@@ -100,34 +137,40 @@ export default {
     },
     handleRemove(file, fileList) {
       console.log("++++++++")
-      // console.log(this.fileList);
-      // console.log(file);
-      // console.log(fileList);
       this.fileList = fileList
-      // console.log(this.fileList);
-      // console.log(file);
-      // console.log(fileList);
     },
     handlePreview(file, fileList) {
-      console.log("--------")
-      // console.log(this.fileList);
-      // console.log(file);
-      // console.log(fileList);
       let that = this;
-      // if (file.raw.type != 'image/jpg'&& file.raw.type != 'image/png') {
-      //   that.$message.error('图片只能是jpg/png格式!');
-      //   return;
-      // }
       if (file.raw.size > 1024 * 1024 * 2) {
         that.$message.error('上传文件大小不能超过 2MB!');
         return;
       }
       that.fileList = fileList;
-      // console.log(this.fileList);
-      // console.log(file);
-      // console.log(fileList);
     },
 
+
+    handleDelete(cId){
+      api.deleteCheckPointsByCid( {pId : this.problemId, cId: cId}).then( res => {
+        alert("delete check point by cId success")
+      }).catch( err => {
+        alert("delete check point by cId fail")
+      })
+    },
+    handleGetCheckPointByPid(){
+      api.getCheckpointList( this.problemId ).then( res => {
+        console.log("++++")
+        for(var i=0; i<res.length; i+=2){
+          var temp = res[i]
+          var tp1 = {checkpointId: temp.checkpointId, userId: temp.userId, isPrivate: temp.isPrivate, createTime: temp.createTime, modifyTime: temp.modifyTime, size: temp.inputSize, name: temp.inputName }
+          var tp2 = {checkpointId: temp.checkpointId, userId: temp.userId, isPrivate: temp.isPrivate, createTime: temp.createTime, modifyTime: temp.modifyTime, size: temp.outputSize, name: temp.outputName }
+          this.checkPointList.push(tp1)
+          this.checkPointList.push(tp2)
+        }
+        console.log(this.checkPointList)
+      }).catch( err => {
+        alert("get check point by problem id error")
+      })
+    }
   }
 }
 </script>

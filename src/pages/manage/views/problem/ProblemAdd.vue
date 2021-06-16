@@ -57,9 +57,9 @@
           <el-radio v-model="form.isSpecialJudge" label="0">No</el-radio>
         </el-form-item>
 
-        <el-form-item label="是否可见" >
-          <el-radio v-model="form.isShow" label="1">Yes</el-radio>
-          <el-radio v-model="form.isShow" label="0">No</el-radio>
+        <el-form-item label="是否禁用" >
+          <el-radio v-model="form.defunct" label="Y">Yes</el-radio>
+          <el-radio v-model="form.defunct" label="N">No</el-radio>
         </el-form-item>
 
         <el-form-item label="来源" >
@@ -97,7 +97,7 @@ export default {
         hint: '没啥注意',
         //有关特判
         isSpecialJudge: '0',
-        isShow: '1',
+        defunct: 'N',
         source: 'zzuoj',
       },
 
@@ -107,6 +107,7 @@ export default {
   methods: {
     handleAddProblem(data){
       api.addProblem(data).then( res => {
+        alert("添加题目成功!")
       }).catch(err => {
         alert(err);
       })

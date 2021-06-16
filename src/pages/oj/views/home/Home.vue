@@ -105,7 +105,6 @@ export default {
 
   //当前页面a a->b->a 跳转页面之后回来还会执行mounted，但是不会执行data中的初始化
   mounted() {
-
     if( this.newsListGetter.length != 0 && this.newsPageIndexGetter == this.currentPage && this.newsCntGetter != this.newsCnt ){
       this.newsCnt = this.newsCntGetter
       this.tableData = this.newsListGetter

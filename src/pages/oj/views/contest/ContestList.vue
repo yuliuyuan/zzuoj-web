@@ -9,6 +9,7 @@
         <el-table
             :data="tableData"
             stripe
+            :row-style="{height: '10px'}"
         >
           <el-table-column
               label="Id"
@@ -20,7 +21,7 @@
 
           <el-table-column
               label="Title"
-              width="500"
+              width="200"
           >
             <template #default="scope">
               <el-button  @click="routerToContest(scope.row.contestId)">{{scope.row.title}} </el-button>
@@ -36,15 +37,27 @@
             </template>
           </el-table-column>
 
-
           <el-table-column
               label="EndTime"
-              width="250"
+              width="250px"
           >
             <template #default="scope">
               <span>{{scope.row.endTime}}</span>
             </template>
           </el-table-column>
+
+
+          <el-table-column
+              label="Status"
+              width="250"
+          >
+            <template #default="scope">
+              <div :style="{'color':scope.row.status == 'Ended'? 'red' : 'green'}">
+                {{scope.row.status}}
+              </div>
+            </template>
+          </el-table-column>
+
 
           <el-table-column
               label="IsPrivate"
@@ -130,6 +143,11 @@ export default {
       var params = {pos: pos, limit: this.pageSize}
       api.getContestList(params).then( res => {
         this.tableData = res;
+
+        //时间->状态
+        for(var i=0; i < this.tableData.length; i++){
+          this.tableData[i].status = this.getStatus(this.tableData[i].startTime, this.tableData[i].endTime)
+        }
         // local_store.setContextDataInLocalStorage("currentContestListPage", this.currentPage)
       }).catch( err => {
         alert("get contest list error!")
@@ -138,6 +156,23 @@ export default {
 
     routerToContest(contestId) {
       this.$router.push('/contest/'+contestId)
+    },
+
+    getStatus(start, end){
+      var temp = new Date()
+      start = new Date(start)
+      end = new Date(end)
+      // console.log("-----")
+      // console.log(start)
+      // console.log(temp)
+      // console.log(end)
+      if(temp < start){
+        return "Pending"
+      }
+      if(temp <= end){
+        return "Running"
+      }
+      return "Ended";
     },
   },
 }
@@ -158,7 +193,7 @@ export default {
 .contestTitle {
   position: relative;
   top: 10px;
-  left: 0px;
+  left: 20px;
   right: 0px;
 }
 

@@ -30,14 +30,14 @@ function post(url, data, headers){
         }).then(response => {
             //服务端common包里定义所有正确的response.data.code都是200
             if(response.data.code === 1) {
-                console.log("111111")
+                console.log("11111111111")
                 resolve(response.data.data);
             } else {
-                console.log("222222")
+                console.log("222222222222")
                 reject(response.data.msg);
             }
         }), err => {
-            console.log("33333")
+            console.log("3333333333")
             reject(err.response.data);
         }
     })
@@ -122,6 +122,7 @@ const problem_url = "zzuoj-problem";
 const experiment_url = "zzuoj-experiment";
 const contest_url = "zzuoj-contest";
 const file_url = "zzuoj-file";
+const submission_url = "zzuoj-submission";
 
 
 export default {
@@ -202,12 +203,22 @@ export default {
         return get(problem_url + '/problem/show',params);
     },
 
-    getProblemById: function (params) {
+
+
+    getProblemByIds: function (params) {
         return get( problem_url + '/problem/get', params);
     },
 
     getProblemCnt: function (){
         return get(problem_url + '/problem/cnt');
+    },
+
+    showProblemIncludePrivate: function (params) {
+        return get(problem_url + '/admin/problem/show',params);
+    },
+
+    getProblemCntIncludePrivate: function (){
+        return get(problem_url + '/admin/problem/cnt');
     },
 
     deleteProblemById: function (params) {
@@ -216,6 +227,10 @@ export default {
 
     addProblem: function (data) {
         return post(problem_url + '/admin/problem/add',data);
+    },
+
+    updateProblem: function (data) {
+        return post(problem_url + '/admin/problem/update',data);
     },
 
     //切换问题是否禁用状态
@@ -259,6 +274,8 @@ export default {
         return get( contest_url + '/contest/get', params)
     },
 
+
+
     getContestCnt: function () {
         return get( contest_url + '/contest/cnt');
     },
@@ -278,6 +295,11 @@ export default {
     deleteContestById: function (params){
         return get( contest_url + '/admin/contest/delete', params)
     },
+
+    getContestRanking: function (params){
+        return get(contest_url + '/contest/ranking', params)
+    },
+
     //file相关
     getNewsList: function (params) {
         return get( file_url + '/news/show', params);
@@ -301,7 +323,20 @@ export default {
 
     updateNews: function (data) {
         return post( file_url + '/admin/news/update', data)
-    }
+    },
+
+    //提交相关
+    submitCode: function (data){
+        return post(submission_url + '/submission/submit', data)
+    },
+
+    getSubmissionCnt: function (params){
+        return get(submission_url + '/submission/cnt', params)
+    },
+    showSubmission: function (params){
+        return get(submission_url + '/submission/show',params)
+    },
+
 }
 
 

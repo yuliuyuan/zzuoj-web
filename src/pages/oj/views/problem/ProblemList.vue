@@ -29,8 +29,8 @@
           </el-table-column>
 
           <el-table-column
-              prop="submit"
-              label="Level"
+              prop="problemId"
+              label="pId"
               width="150"
           >
           </el-table-column>
@@ -175,7 +175,7 @@ export default {
 .problemTitle {
   position: relative;
   top: 10px;
-  left: 0px;
+  left: 20px;
   right: 0px;
 }
 

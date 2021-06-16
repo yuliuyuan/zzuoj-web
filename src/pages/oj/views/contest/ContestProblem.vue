@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-<!--    problem主体    -->
+    <!--    problem主体    -->
     <div class="problemDetail">
       <div class="problemHeader">
         {{this.problem.title}}
@@ -84,22 +84,21 @@
         </el-form>
       </div>
     </div>
-<!--    problem右侧信息-->
+    <!--    problem右侧信息-->
     <div class="problemInfo">
       <el-button @click="routerToSubmission" icon="el-icon-s-grid">Submissions</el-button>
     </div>
   </div>
 
 </template>
-
 <script>
-import api from '@/util/api.js'
+import api from "@/util/api";
 import {mapGetters} from "vuex";
 
-
 export default {
-  name: 'ProblemView',
-  props: ['problemId'],
+  name: 'ContestProblemView',
+  props: ['problemId','contestId'],
+
   data() {
     return {
       problem : {},
@@ -121,7 +120,6 @@ export default {
         label: 'go'
       }],
       lang: 1,
-
     }
   },
 
@@ -129,11 +127,9 @@ export default {
     ...mapGetters(["userIdGetter"])
   },
 
-
   mounted() {
     this.handleGetProblemById(this.$route.params.problemId)
   },
-
   methods: {
     handleGetProblemById(pId) {
       var temp = [pId]
@@ -156,7 +152,8 @@ export default {
         return
       }
       var data = {
-        problemId:   this.$route.params.problemId,
+        problemId: this.$route.params.problemId,
+        contestId: this.$route.params.contestId,
         userId: this.userIdGetter,
         inDate: new Date(),
         language: this.lang,
@@ -179,68 +176,8 @@ export default {
         }
       })
     },
-
-  }
+  },
 
 }
-
 </script>
 
-<style>
-
-.problemDetail{
-  border: 1px solid rgb(185, 185, 185);
-  background-color: #fff;
-
-  position: absolute;
-  /*width: 500px;*/
-  top: 100px;
-  left: 70px;
-  width: 1350px;
-}
-
-.problemHeader {
-  position: relative;
-
-  text-align : left;
-  left: 20px;
-  top : 20px;
-
-  font-family:"Times New Roman", Times, serif;
-  font-size:40px;
-}
-
-
-
-.blueTitle .el-form-item__label{
-  color: blue;
-
-  position: relative;
-  left: 30px;
-
-  font-family:"Times New Roman", Times, serif;
-  font-size:23px;
-}
-
-.problemContent {
-  position: relative;
-  left: 30px;
-  width: 1240px;
-
-  color: black;
-  font-family:"Times New Roman", Times, serif;
-  font-size:17px;
-}
-
-.problemUpload {
-  width: 1235px;
-
-}
-
-.problemInfo {
-  position: relative;
-
-  top: 10px;
-  left: 1450px;
-}
-</style>

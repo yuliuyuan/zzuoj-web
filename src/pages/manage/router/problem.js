@@ -13,7 +13,7 @@ export default [
         }
     },
     {
-        path: Global.admin_base_url_prefix+'/problem/show/:id',
+        path: Global.admin_base_url_prefix+'/problem/show/edit/:id',
         name: 'problem',
         components: {
             manage: ProblemEdit

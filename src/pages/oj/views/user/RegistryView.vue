@@ -69,9 +69,9 @@ export default {
       console.log("++++")
       api.registry(data).then( res => {
         //处理token
-        console.log(res);
+        alert("注册成功！")
       }).catch( err => {
-        alert("注册失败！");
+        alert("注册失败！可能是userId已经存在");
       })
     }
   }

@@ -18,6 +18,14 @@
         label="题目名"
         width="180">
     </el-table-column>
+
+
+    <el-table-column
+        prop="problemId"
+        label="pId"
+        width="180">
+    </el-table-column>
+
     <!--        prop="defunct"-->
     <el-table-column
         label="禁用题目"
@@ -143,7 +151,7 @@ export default {
 
 
     handleProblemCnt(){
-      api.getProblemCnt().then( res => {
+      api.getProblemCntIncludePrivate().then( res => {
         this.problemCnt = res;
 
         this.setProblemsCnt(res)
@@ -154,7 +162,7 @@ export default {
 
     handleCurrentChange(pos) {
       var data = {pos: pos, limit: this.pageSize}
-      api.showProblem(data).then( res => {
+      api.showProblemIncludePrivate(data).then( res => {
         console.log(res)
         this.tableData = res;
 
